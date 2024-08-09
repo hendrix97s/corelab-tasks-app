@@ -2,22 +2,22 @@
 
 import LayoutDefault from "@/components/ui/layouts/layout-default";
 
-type WorkspacePageProps = {
+type TasksPageProps = {
   params: {
-    id: string;
+    project_id: string;
   };
 };
 
-const WorkspacePage = ({ params }: WorkspacePageProps) => {
+const TasksPage = ({ params }: TasksPageProps) => {
   return (
     <LayoutDefault>
       <div className="p-4">
         <h1 className="font-semibold text-2xl text-electric-violet-500">
-          Workspace Page {params.id}
+          Tasks Page {params.project_id}
         </h1>
       </div>
     </LayoutDefault>
   );
 };
 
-export default WorkspacePage;
+export default TasksPage;
