@@ -1,3 +1,5 @@
+import { Toaster } from "@/components/ui/sonner";
+import { AuthProvider } from "@/contexts/use-auth";
 import { ReactNode } from "react";
 
 type MainProviderProps = {
@@ -5,7 +7,12 @@ type MainProviderProps = {
 };
 
 const MainProvider = ({ children }: MainProviderProps) => {
-  return <>{children}</>;
+  return (
+    <AuthProvider>
+      {children}
+      <Toaster />
+    </AuthProvider>
+  );
 };
 
 export default MainProvider;
