@@ -81,105 +81,119 @@ const LayoutDefault = ({ children, ...rest }: LayoutDefaultProps) => {
       lists: [],
     },
     {
-      id: 5,
+      id: 6,
       order: 5,
       name: "Project 5",
       private: true,
       lists: [],
     },
     {
-      id: 5,
+      id: 7,
       order: 5,
       name: "Project 5",
       private: true,
       lists: [],
     },
     {
-      id: 5,
+      id: 8,
       order: 5,
       name: "Project 5",
       private: true,
       lists: [],
     },
     {
-      id: 5,
+      id: 9,
       order: 5,
       name: "Project 5",
       private: true,
       lists: [],
     },
     {
-      id: 5,
+      id: 10,
       order: 5,
       name: "Project 5",
       private: true,
       lists: [],
     },
     {
-      id: 5,
+      id: 11,
       order: 5,
       name: "Project 5",
       private: true,
       lists: [],
     },
     {
-      id: 5,
+      id: 13,
       order: 5,
-      name: "Project 5",
+      name: "Finished",
       private: true,
       lists: [],
     },
     {
-      id: 5,
+      id: 13,
       order: 5,
-      name: "Project 5",
+      name: "Finished",
       private: true,
       lists: [],
     },
     {
-      id: 5,
+      id: 13,
       order: 5,
-      name: "Project 5",
+      name: "Finished",
       private: true,
       lists: [],
     },
     {
-      id: 5,
+      id: 13,
       order: 5,
-      name: "Project 5",
+      name: "Finished",
       private: true,
       lists: [],
     },
     {
-      id: 5,
+      id: 13,
       order: 5,
-      name: "Project 5",
+      name: "Finished",
       private: true,
       lists: [],
     },
     {
-      id: 5,
+      id: 13,
       order: 5,
-      name: "Project 5",
+      name: "Finished",
       private: true,
       lists: [],
     },
     {
-      id: 5,
+      id: 13,
       order: 5,
-      name: "Project 5",
+      name: "Finished",
       private: true,
       lists: [],
     },
     {
-      id: 5,
+      id: 13,
       order: 5,
-      name: "Project 5",
+      name: "Finished",
       private: true,
       lists: [],
     },
     {
-      id: 5,
+      id: 13,
+      order: 5,
+      name: "Finished",
+      private: true,
+      lists: [],
+    },
+    {
+      id: 13,
+      order: 5,
+      name: "Finished",
+      private: true,
+      lists: [],
+    },
+    {
+      id: 13,
       order: 5,
       name: "Finished",
       private: true,
@@ -191,7 +205,7 @@ const LayoutDefault = ({ children, ...rest }: LayoutDefaultProps) => {
     <div
       {...rest}
       className={twMerge(
-        "flex flex-col w-full h-screen overflow-hidden bg-shark-900 ",
+        "flex flex-col w-full h-screen overflow-auto bg-shark-900 ",
         rest.className
       )}
     >
@@ -214,73 +228,73 @@ const LayoutDefault = ({ children, ...rest }: LayoutDefaultProps) => {
       </header>
 
       <div className="flex-1 flex flex-row w-full overflow-auto">
-        <nav className="flex flex-col h-full bg-shark-900 w-80 border-r border-shark-800">
+        <div className="flex flex-col h-full bg-shark-900 w-72 border-r border-shark-800 ">
           <div className="flex items-center w-full h-16 font-semibold border-b border-shark-800 px-4">
             <span className="mr-2 bg-electric-violet-700 px-2 py-1 rounded-md font-bold text-sm">
               W
             </span>
             Workspace
           </div>
-          <div className="flex  flex-col flex-1 overflow-auto">
+          <div className="flex flex-1 flex-col h-full overflow-hidden">
             <div className="flex justify-between items-center h-12 px-4">
               <h2 className="opacity-50 text-sm font-semibold">Projetos</h2>
               <ProjectFormCreate />
             </div>
-            <Accordion
-              type="single"
-              collapsible
-              className="w-full flex-1 px-2 overflow-auto h-full divide-y divide-shark-800/15 border-none"
-            >
-              {projects.map((project) => (
-                <AccordionItem
-                  value={project.id.toString()}
-                  className="border-shark-800/15"
-                  key={project.order}
-                >
-                  <div className="flex items-center justify-between gap-2 hover:bg-shark-800 px-0 py-2 hover:px-2  rounded-md text-shark-200  group">
-                    <div className="flex items-center gap-2">
-                      <AccordionTrigger className="h-6 bg-shark-900 rounded-sm sr-only group-hover:not-sr-only p-0 " />
-
-                      <span
-                        className={`text-white px-1.5 py-0.5 rounded-md font-bold text-xs not-sr-only group-hover:sr-only`}
-                        style={{
-                          backgroundColor: randomColor(),
-                          border: randomColor(),
-                        }}
-                      >
-                        {handleGetFirstChar(project.name)}
-                      </span>
-                      <span className="text-sm">{project.name}</span>
-                    </div>
-                    <ListFormCreate className="mt-1" />
-                  </div>
-
-                  {project.lists?.length > 0 && (
-                    <div className="pl-4">
-                      {project.lists.map((list) => (
-                        <AccordionContent
-                          key={list.id}
-                          className="flex flex-row gap-2 items-center py-2"
+            <div className="w-full flex-1 overflow-auto">
+              <Accordion
+                type="multiple"
+                className="px-2 divide-y divide-shark-800/15"
+              >
+                {projects.map((project) => (
+                  <AccordionItem
+                    value={project.id.toString()}
+                    className="border-shark-800/15 "
+                    key={project.order}
+                  >
+                    <div className="flex items-center justify-between gap-2 hover:bg-shark-800 px-0 py-2 hover:px-2  rounded-md text-shark-200 relative group">
+                      <div className="flex items-center gap-2">
+                        <AccordionTrigger className="h-full flex justify-center bg-shark-950 rounded-sm p-0  sr-only group-hover:not-sr-only " />
+                        <span
+                          className={`text-white px-1.5 py-0.5 rounded-md font-bold text-xs not-sr-only group-hover:sr-only`}
+                          style={{
+                            backgroundColor: randomColor(),
+                            border: randomColor(),
+                          }}
                         >
-                          <List className="w-5 h-5 opacity-50" />
-                          <Link
-                            href={`/workspace/1/project/${project.id}/list/${list.id}`}
-                            className="text-shark-200"
-                          >
-                            {list.name}
-                          </Link>
-                        </AccordionContent>
-                      ))}
+                          {handleGetFirstChar(project.name)}
+                        </span>
+                        <span className="text-sm px-1.5 py-0.5">
+                          {project.name}
+                        </span>
+                      </div>
+                      <ListFormCreate className="mt-1" />
                     </div>
-                  )}
-                </AccordionItem>
-              ))}
-            </Accordion>
+
+                    {project.lists?.length > 0 && (
+                      <div className="pl-4">
+                        {project.lists.map((list) => (
+                          <AccordionContent
+                            key={list.id}
+                            className="flex flex-row gap-2 items-center py-2"
+                          >
+                            <List className="w-5 h-5 opacity-50" />
+                            <Link
+                              href={`/workspace/1/project/${project.id}/list/${list.id}`}
+                              className="text-shark-200"
+                            >
+                              {list.name}
+                            </Link>
+                          </AccordionContent>
+                        ))}
+                      </div>
+                    )}
+                  </AccordionItem>
+                ))}
+              </Accordion>
+            </div>
           </div>
-        </nav>
-        <main className="flex flex-col h-full w-full  bg-shark-950">
-          {children}
-        </main>
+        </div>
+        <main className="flex flex-col w-full  bg-shark-950">{children}</main>
       </div>
     </div>
   );

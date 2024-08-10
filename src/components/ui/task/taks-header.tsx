@@ -8,7 +8,7 @@ interface TaskHeaderProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 const TaskHeader = ({ ...rest }: TaskHeaderProps) => {
   return (
-    <div {...rest} className={twMerge(" ", rest.className)}>
+    <div {...rest} className={twMerge("", rest.className)}>
       <nav className="h-16 border-b border-shark-800 flex items-center justify-between px-4">
         <div className="flex flex-row items-center gap-4">
           <div>
