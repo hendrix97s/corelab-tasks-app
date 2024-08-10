@@ -1,49 +1,54 @@
-import { type Metadata } from 'next'
-import Link from 'next/link'
+import { type Metadata } from "next";
+import Link from "next/link";
 
-import { AuthLayout } from '@/components/AuthLayout'
-import { Button } from '@/components/Button'
-import { TextField } from '@/components/Fields'
+import { AuthLayout } from "@/components/AuthLayout";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
-  title: 'Sign In',
-}
+  title: "login",
+};
 
 export default function Login() {
   return (
     <AuthLayout
-      title="Sign in to account"
+      title="Entre com sua conta"
       subtitle={
         <>
-          Don’t have an account?{' '}
-          <Link href="/register" className="text-cyan-600">
-            Sign up
-          </Link>{' '}
-          for a free trial.
+          Ainda não possui uma conta?{" "}
+          <Link href="/register" className="text-electric-violet-500">
+            Cadastre-se
+          </Link>{" "}
+          é gratuito.
         </>
       }
     >
-      <form>
-        <div className="space-y-6">
-          <TextField
-            label="Email address"
+      <div className="flex flex-col gap-4">
+        <Label className="space-y-1.5">
+          <span>Email</span>
+          <Input
             name="email"
             type="email"
             autoComplete="email"
             required
+            className="bg-shark-800 border-shark-800/50"
           />
-          <TextField
-            label="Password"
+        </Label>
+        <Label className="space-y-1.5">
+          <span>Senha</span>
+          <Input
             name="password"
             type="password"
             autoComplete="current-password"
             required
+            className="bg-shark-800 border-shark-800/50"
           />
-        </div>
-        <Button type="submit" color="cyan" className="mt-8 w-full">
-          Sign in to account
+        </Label>
+        <Button type="submit" color="" className="mt-2 w-full">
+          Entrar
         </Button>
-      </form>
+      </div>
     </AuthLayout>
-  )
+  );
 }

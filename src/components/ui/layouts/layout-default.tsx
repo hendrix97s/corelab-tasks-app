@@ -15,6 +15,7 @@ import {
 import ListFormCreate from "../list/list-form-create";
 import ProjectFormCreate from "../project/project-form-create";
 import Link from "next/link";
+import { CirclesBackground } from "@/components/CirclesBackground";
 
 interface LayoutDefaultProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
@@ -211,7 +212,7 @@ const LayoutDefault = ({ children, ...rest }: LayoutDefaultProps) => {
     >
       <header className="h-14 w-full bg-shark-800 flex items-center justify-center">
         <nav className="flex justify-between items-center w-full px-4">
-          <Corelab className="fill-white" height={24} />
+          <Corelab className="fill-white" height={18} />
           <div className="flex gap-4 items-center">
             <div>
               Olá, <span className="font-semibold">Felix</span>
@@ -294,7 +295,9 @@ const LayoutDefault = ({ children, ...rest }: LayoutDefaultProps) => {
             </div>
           </div>
         </div>
-        <main className="flex flex-col w-full  bg-shark-950">{children}</main>
+        <main className="flex flex-col w-full  bg-shark-950 relative">
+          {children}
+        </main>
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
 "use client";
 
+import { CirclesBackground } from "@/components/CirclesBackground";
 import {
   Accordion,
   AccordionContent,
@@ -55,7 +56,7 @@ const ListPage = ({ params }: ListPageProps) => {
   ];
 
   return (
-    <LayoutDefault>
+    <LayoutDefault className="relative">
       <TaksHeader />
 
       <Accordion
