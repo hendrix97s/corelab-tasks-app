@@ -14,9 +14,7 @@ import ListFormCreate from "@/components/ui/list/list-form-create";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -26,13 +24,14 @@ import { handleGetFirstChar, randomColor } from "@/lib/utils";
 import { ChevronDown, PlusIcon } from "lucide-react";
 import Image from "next/image";
 
-type TasksPageProps = {
+type ListPageProps = {
   params: {
     project_id: string;
+    list_id: string;
   };
 };
 
-const TasksPage = ({ params }: TasksPageProps) => {
+const ListPage = ({ params }: ListPageProps) => {
   const list = [
     {
       id: 1,
@@ -143,4 +142,4 @@ const TasksPage = ({ params }: TasksPageProps) => {
   );
 };
 
-export default TasksPage;
+export default ListPage;

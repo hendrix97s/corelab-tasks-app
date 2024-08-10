@@ -1,7 +1,21 @@
-import Image from "next/image";
+import { CallToAction } from "@/components/CallToAction";
+import { Faqs } from "@/components/Faqs";
+import { Hero } from "@/components/Hero";
+import { Pricing } from "@/components/Pricing";
+import { PrimaryFeatures } from "@/components/PrimaryFeatures";
+import { Reviews } from "@/components/Reviews";
+import { SecondaryFeatures } from "@/components/SecondaryFeatures";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24 bg-shark-900"></main>
+    <div className="h-full  overflow-auto">
+      <Hero />
+      <PrimaryFeatures />
+      <SecondaryFeatures />
+      <CallToAction />
+      <Reviews />
+      <Pricing />
+      <Faqs />
+    </div>
   );
 }

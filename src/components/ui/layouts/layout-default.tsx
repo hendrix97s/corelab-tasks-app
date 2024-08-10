@@ -14,6 +14,7 @@ import {
 } from "../accordion";
 import ListFormCreate from "../list/list-form-create";
 import ProjectFormCreate from "../project/project-form-create";
+import Link from "next/link";
 
 interface LayoutDefaultProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
@@ -262,7 +263,12 @@ const LayoutDefault = ({ children, ...rest }: LayoutDefaultProps) => {
                           className="flex flex-row gap-2 items-center py-2"
                         >
                           <List className="w-5 h-5 opacity-50" />
-                          <span className="text-shark-200">{list.name}</span>
+                          <Link
+                            href={`/workspace/1/project/${project.id}/list/${list.id}`}
+                            className="text-shark-200"
+                          >
+                            {list.name}
+                          </Link>
                         </AccordionContent>
                       ))}
                     </div>
