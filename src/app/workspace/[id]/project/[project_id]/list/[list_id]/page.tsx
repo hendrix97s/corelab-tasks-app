@@ -12,6 +12,7 @@ import CategoryIcon from "@/components/ui/icons/category-icon";
 import { Input } from "@/components/ui/input";
 import LayoutDefault from "@/components/ui/layouts/layout-default";
 import ListFormCreate from "@/components/ui/list/list-form-create";
+import Loading from "@/components/ui/loading";
 import {
   Table,
   TableBody,
@@ -21,6 +22,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import TaksHeader from "@/components/ui/task/taks-header";
+import { useAuth } from "@/contexts/use-auth";
 import { handleGetFirstChar, randomColor } from "@/lib/utils";
 import { ChevronDown, PlusIcon } from "lucide-react";
 import Image from "next/image";
@@ -33,6 +35,7 @@ type ListPageProps = {
 };
 
 const ListPage = ({ params }: ListPageProps) => {
+  const { user } = useAuth();
   const list = [
     {
       id: 1,
@@ -55,6 +58,7 @@ const ListPage = ({ params }: ListPageProps) => {
     },
   ];
 
+  if (!user) return <Loading />;
   return (
     <LayoutDefault className="relative">
       <TaksHeader />

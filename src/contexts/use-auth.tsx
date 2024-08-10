@@ -52,7 +52,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     async (data: signInUserSchemaFormProps) => {
       try {
         setLoading(true);
-        const response = await axios.post("/api/login", data);
+        const response = await axios.post("/login", data);
 
         if (response.status !== 200) throw new Error("Falha ao efetuar login");
 
@@ -75,7 +75,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   const logout = useCallback(async () => {
     try {
       setLoading(true);
-      const response = await axios.post("/api/logout");
+      const response = await axios.post("/logout");
       if (response.status === 200) {
         deleteCookie(process.env.NEXT_PUBLIC_USER_PERSONAL_ACCESS_TOKEN!);
         router.push("/");
