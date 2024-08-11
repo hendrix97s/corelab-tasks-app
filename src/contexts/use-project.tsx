@@ -15,10 +15,14 @@ import { ProjectInterface } from "@/interfaces/project-interface";
 import { projectStoreSchemaFormProps } from "@/validations/project-validate";
 
 interface ProjectContextProps {
-  ProjectIndex: (workspaceId: number) => Promise<ProjectInterface[]>;
-  ProjectStore: (
+  projectIndex: (workspaceId: number) => Promise<ProjectInterface[]>;
+  projectStore: (
     workspaceId: number,
     payload: projectStoreSchemaFormProps
+  ) => Promise<ProjectInterface>;
+  projectShow: (
+    workspaceId: number,
+    projectId: number
   ) => Promise<ProjectInterface>;
 }
 
@@ -31,7 +35,7 @@ const ProjectContext = createContext({} as ProjectContextProps);
 const ProjectProvider = ({ children }: ProjectProps) => {
   const [loading, setLoading] = useState(false);
 
-  const ProjectIndex = useCallback(async (workspaceId: number) => {
+  const projectIndex = useCallback(async (workspaceId: number) => {
     try {
       setLoading(true);
       const response = await axios.get(`api/workspace/${workspaceId}/project`);
@@ -43,7 +47,7 @@ const ProjectProvider = ({ children }: ProjectProps) => {
     }
   }, []);
 
-  const ProjectStore = useCallback(
+  const projectStore = useCallback(
     async (workspaceId: number, payload: projectStoreSchemaFormProps) => {
       try {
         setLoading(true);
@@ -64,37 +68,46 @@ const ProjectProvider = ({ children }: ProjectProps) => {
     []
   );
 
-  const ProjectUpdate = useCallback(async (uuid: string, payload: any) => {
+  const projectUpdate = useCallback(
+    async (
+      workspaceId: number,
+      id: number,
+      payload: projectStoreSchemaFormProps
+    ) => {
+      try {
+        setLoading(true);
+        const response = await axios.post(
+          `api/workspace/${workspaceId}/project/${id}`,
+          payload
+        );
+
+        toast("sucesso");
+
+        return response.data;
+      } catch (error) {
+        toast("falha");
+      } finally {
+        setLoading(false);
+      }
+    },
+    []
+  );
+
+  const projectShow = useCallback(async (workspaceId: number, id: number) => {
     try {
       setLoading(true);
-      const response = await axios.post(`${uuid}`, payload);
-
-      toast("sucesso");
-
+      const response = await axios.get(
+        `api/workspace/${workspaceId}/project${id}`
+      );
       return response.data;
     } catch (error) {
-      toast("falha");
+      toast("Falha ao buscar projeto");
     } finally {
       setLoading(false);
     }
   }, []);
 
-  const ProjectShow = useCallback(async (uuid: string) => {
-    try {
-      setLoading(true);
-      const response = await axios.get(`${uuid}`);
-
-      toast("sucesso");
-
-      return response.data;
-    } catch (error) {
-      toast("falha");
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  const ProjectDestroy = useCallback(async (uuid: string) => {
+  const projectDestroy = useCallback(async (uuid: string) => {
     try {
       setLoading(true);
       const response = await axios.delete(`${uuid}`);
@@ -133,8 +146,9 @@ const ProjectProvider = ({ children }: ProjectProps) => {
   );
 
   const values = {
-    ProjectIndex,
-    ProjectStore,
+    projectIndex,
+    projectStore,
+    projectShow,
   };
 
   return (

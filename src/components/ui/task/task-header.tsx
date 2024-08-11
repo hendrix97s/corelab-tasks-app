@@ -1,15 +1,21 @@
 import { handleGetFirstChar, randomColor } from "@/lib/utils";
 import { List } from "lucide-react";
-import { memo } from "react";
+import { Dispatch, memo, SetStateAction } from "react";
 import { twMerge } from "tailwind-merge";
 import { Input } from "../input";
+import { TaskListInterface } from "@/interfaces/task-list-interface";
+import TaskFormCreate from "./task-form-create";
+import { TaskInterface } from "@/interfaces/task-interface";
 
-interface TaskHeaderProps extends React.HTMLAttributes<HTMLDivElement> {}
+interface TaskHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
+  taskList: TaskListInterface | undefined;
+  setTasks: Dispatch<SetStateAction<TaskInterface[] | undefined>>;
+}
 
-const TaskHeader = ({ ...rest }: TaskHeaderProps) => {
+const TaskHeader = ({ taskList, setTasks, ...rest }: TaskHeaderProps) => {
   return (
     <div {...rest} className={twMerge("", rest.className)}>
-      <nav className="h-16 border-b border-shark-800 flex items-center justify-between px-4">
+      <nav className="h-16 border-b border-shark-800 flex items-center justify-between px-5">
         <div className="flex flex-row items-center gap-4">
           <div>
             <span
@@ -21,18 +27,21 @@ const TaskHeader = ({ ...rest }: TaskHeaderProps) => {
             >
               {handleGetFirstChar("Embedder Hub")}
             </span>
-            <span>Embedder hub</span>
+            <span>{taskList?.project.name}</span>
           </div>
           <span className="text-sm text-shark-400">/</span>
           <span className="flex items-center">
             <List className="w-4 h-4 opacity-50 mr-2" />
-            Tarefas
+            {taskList?.name}
           </span>
         </div>
-        <Input
-          className="bg-shark-950 border-shark-900 h-8 w-fit"
-          placeholder="Pesquisar tarefas..."
-        />
+        <div className="flex gap-2">
+          <Input
+            className="bg-shark-950 border-shark-900 w-fit"
+            placeholder="Pesquisar tarefas..."
+          />
+          <TaskFormCreate taskList={taskList} setTasks={setTasks} />
+        </div>
       </nav>
     </div>
   );

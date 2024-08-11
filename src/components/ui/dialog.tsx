@@ -1,4 +1,4 @@
-import { memo, useState } from "react";
+import { Dispatch, memo, SetStateAction, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import {
   AlertDialog,
@@ -15,30 +15,38 @@ import { PlusIcon } from "lucide-react";
 
 interface DialogProps extends React.HTMLAttributes<HTMLDivElement> {
   title: string;
+  buttonName?: string;
+  buttonPadding?: boolean;
   children: React.ReactNode;
   srOnly?: boolean;
   handleConfirm?: () => void;
+  open?: boolean;
+  setOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 const Dialog = ({
   title,
+  buttonName,
+  buttonPadding,
   srOnly,
   children,
   handleConfirm,
+  open,
+  setOpen,
   ...rest
 }: DialogProps) => {
-  const [open, setOpen] = useState(false);
   return (
     <div {...rest} className={twMerge("", rest.className)}>
       <AlertDialog onOpenChange={setOpen} open={open}>
         <Button
-          variant="ghost"
-          className={` p-0 h-fit ${
+          className={` flex gap-1 ${
             srOnly ? "sr-only group-hover:not-sr-only" : ""
-          } `}
+          }
+          ${buttonPadding ? "" : "h-fit p-0"} `}
           onClick={() => setOpen(true)}
         >
           <PlusIcon className="w-4 h-4" />
+          {buttonName && buttonName}
         </Button>
         <AlertDialogContent className="bg-shark-900 border divide-y divide-shark-800 border-shark-900 p-0">
           <AlertDialogHeader>

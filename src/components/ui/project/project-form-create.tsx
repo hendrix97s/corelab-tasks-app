@@ -50,16 +50,18 @@ const ProjectFormCreate = ({
   ...rest
 }: ProjectFormCreateProps) => {
   const { user } = useAuth();
-  const { ProjectStore } = useProject();
+  const { projectStore } = useProject();
   const [statusModels, setStatusModels] = useState<
     { name: string; color: string }[]
   >([]);
+  const [open, setOpen] = useState(false);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     setValue,
+    reset,
   } = useForm<projectStoreSchemaFormProps>({
     resolver: zodResolver(projectStoreSchema),
     defaultValues: {
@@ -147,10 +149,12 @@ const ProjectFormCreate = ({
   const handleStoreProject = useCallback(
     async (data: projectStoreSchemaFormProps) => {
       if (!user.workspace) return;
-      const response = await ProjectStore(user.workspace.id, data);
+      const response = await projectStore(user.workspace.id, data);
       setProjects((prev) => [...prev, response]);
+      reset();
+      setOpen(false);
     },
-    [user, ProjectStore, setProjects]
+    [user, projectStore, setProjects, reset]
   );
 
   useEffect(() => {
@@ -161,6 +165,8 @@ const ProjectFormCreate = ({
   return (
     <div {...rest} className={twMerge("", rest.className)}>
       <Dialog
+        open={open}
+        setOpen={setOpen}
         title="Criar Projeto"
         handleConfirm={handleSubmit(handleStoreProject)}
       >

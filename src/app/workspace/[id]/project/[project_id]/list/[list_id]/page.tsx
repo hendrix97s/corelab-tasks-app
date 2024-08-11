@@ -21,11 +21,18 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import TaksHeader from "@/components/ui/task/taks-header";
+import TaskHeader from "@/components/ui/task/task-header";
+import Tasks from "@/components/ui/task/tasks";
 import { useAuth } from "@/contexts/use-auth";
+import { useProject } from "@/contexts/use-project";
+import { useTask } from "@/contexts/use-task";
+import { useTaskList } from "@/contexts/use-task-list";
+import { TaskInterface } from "@/interfaces/task-interface";
+import { TaskListInterface } from "@/interfaces/task-list-interface";
 import { handleGetFirstChar, randomColor } from "@/lib/utils";
 import { ChevronDown, PlusIcon } from "lucide-react";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 type ListPageProps = {
   params: {
@@ -36,113 +43,91 @@ type ListPageProps = {
 
 const ListPage = ({ params }: ListPageProps) => {
   const { user } = useAuth();
-  const list = [
-    {
-      id: 1,
-      name: "Nome da tarefa",
-      responsible: "Luiz",
-      priority: "low",
-    },
-    { id: 2, name: "Nome da tarefa", responsible: "Carlos", priority: "low" },
-    {
-      id: 3,
-      name: "Nome da tarefa",
-      responsible: "Jéssica",
-      priority: "low",
-    },
-    {
-      id: 4,
-      name: "Nome da tarefa",
-      responsible: "Antonio",
-      priority: "low",
-    },
-  ];
+  const { taskListShow } = useTaskList();
+  const { taskIndex } = useTask();
+  const [taskList, setTaskList] = useState<TaskListInterface>();
+  const [tasks, setTasks] = useState<TaskInterface[] | undefined>([]);
 
-  if (!user) return <Loading />;
+  const handleGetTasksByStatusName = (statusName: string) => {
+    return tasks?.filter((task) => task.status.name === statusName) ?? [];
+  };
+
+  const handleGetStatusesName = (): string[] => {
+    return taskList?.project.statuses.map((status) => status.name) || [];
+  };
+
+  useEffect(() => {
+    if (!user) return;
+    taskListShow(
+      user.workspace.id,
+      Number(params.project_id),
+      Number(params.list_id)
+    ).then((value) => {
+      setTaskList(value);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [taskListShow, user]);
+
+  useEffect(() => {
+    if (!user || !taskList) return;
+    taskIndex(user.workspace.id, taskList?.project.id, taskList?.id).then(
+      (value) => {
+        setTasks(value);
+      }
+    );
+  }, [user, taskList, taskIndex]);
+
+  if (!user || !taskList) return <Loading />;
   return (
     <LayoutDefault className="relative">
-      <TaksHeader />
+      <TaskHeader taskList={taskList} setTasks={setTasks} />
 
-      <Accordion
-        type="single"
-        collapsible
-        defaultValue="in-review"
-        className="p-8"
-      >
-        <AccordionItem value={"in-review"} className="border-shark-800/15">
-          <div className="flex items-center gap-2">
-            <AccordionTrigger className="w-4 h-4 bg-shark-800 rounded-sm py-0" />
-
-            <div className="bg-orange-400/75 w-fit py-1.5 px-2 rounded-lg flex items-center gap-2">
-              <CategoryIcon width={18} height={18} className="fill-white" />
-              <span className="font-semibold text-xs">IN REVIEW</span>
-            </div>
-
-            <ListFormCreate />
+      <div className="flex-1 overflow-auto">
+        {tasks && tasks?.length > 0 ? (
+          <Accordion
+            type="multiple"
+            defaultValue={handleGetStatusesName()}
+            className="p-5 "
+          >
+            {taskList?.project.statuses &&
+              taskList.project.statuses.map((status) => (
+                <div
+                  key={status.id}
+                  className={`${
+                    handleGetTasksByStatusName(status.name)?.length > 0
+                      ? "mb-6"
+                      : ""
+                  }`}
+                >
+                  {handleGetTasksByStatusName(status.name)?.length > 0 && (
+                    <Tasks
+                      statuses={taskList.project.statuses}
+                      key={status.id}
+                      value={status.name}
+                      statusColor={status.color}
+                      statusName={status.name}
+                      tasks={handleGetTasksByStatusName(status.name)}
+                      setTasks={setTasks}
+                    />
+                  )}
+                </div>
+              ))}
+          </Accordion>
+        ) : (
+          <div className="h-full flex flex-col justify-center items-center ">
+            <Image
+              src="/empty-cuate.svg"
+              width={1000}
+              height={1000}
+              alt="is empty"
+              className="w-1/2"
+            />
+            <h1 className="text-electric-violet-500 font-semibold text-xl">
+              Adicione uma tarefa a sua lista.
+            </h1>
           </div>
-          <AccordionContent className="flex flex-row gap-2 items-center">
-            <Table className="mt-2">
-              <TableHeader className="divide-shark-900 border-shark-900">
-                <TableRow className="hover:bg-shark-950  divide-shark-800 border-shark-800 ">
-                  <TableHead className=" text-shark-400 pl-1">Nome</TableHead>
-                  <TableHead className="text-shark-400">Responsável</TableHead>
-                  <TableHead className="text-shark-400">
-                    Data de vencimento
-                  </TableHead>
-                  <TableHead className="text-right text-shark-400">
-                    Prioridade
-                  </TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody className="divide-y divide-shark-900 text-shark-400">
-                {list.map((item) => (
-                  <TableRow
-                    key={item.id}
-                    className="hover:bg-shark-900/50 border-shark-900 "
-                  >
-                    <TableCell className="py-1 pl-8">
-                      <div className="flex items-center gap-2">
-                        <CategoryIcon
-                          width={18}
-                          height={18}
-                          className="fill-orange-400/75"
-                        />
-                        <span className="text-shark-200 font-semibold">
-                          {item.name}
-                        </span>
-                      </div>
-                    </TableCell>
-                    <TableCell className="py-1">
-                      <Image
-                        src={`https://api.dicebear.com/9.x/bottts/svg?seed=${item.responsible}`}
-                        width={500}
-                        height={500}
-                        alt="Felix"
-                        className="w-8"
-                      />
-                    </TableCell>
-                    <TableCell className="py-1">x</TableCell>
-                    <TableCell className="text-right py-1">
-                      {item.priority}
-                    </TableCell>
-                  </TableRow>
-                ))}
-                <TableRow className="col-span-4 hover:bg-shark-950 ">
-                  <TableCell className="py-4 text-left col-span-4">
-                    <Button
-                      variant="ghost"
-                      className="h-fit p-0  text-shark-400 flex gap-2 items-center ml-4 hover:bg-shark-950 hover:text-shark-400"
-                    >
-                      <PlusIcon className="w-5 h-5 text-shark-400" />
-                      <span>Adicionar Tarefa</span>
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </AccordionContent>
-        </AccordionItem>
-      </Accordion>
+        )}
+      </div>
     </LayoutDefault>
   );
 };

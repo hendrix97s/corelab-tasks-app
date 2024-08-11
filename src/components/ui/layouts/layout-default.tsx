@@ -27,15 +27,16 @@ interface LayoutDefaultProps extends React.HTMLAttributes<HTMLDivElement> {
 
 const LayoutDefault = ({ children, ...rest }: LayoutDefaultProps) => {
   const { user, logout } = useAuth();
-  const { ProjectIndex } = useProject();
+  const { projectIndex } = useProject();
   const [projects, setProjects] = useState<ProjectInterface[]>([]);
 
   useEffect(() => {
     if (!user) return;
-    ProjectIndex(user.workspace.id).then((response) => {
+    projectIndex(user.workspace.id).then((response) => {
       setProjects(response);
     });
-  }, [ProjectIndex, user]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [projectIndex]);
 
   if (!user) return <Loading />;
 
@@ -105,10 +106,14 @@ const LayoutDefault = ({ children, ...rest }: LayoutDefaultProps) => {
                           {project.name}
                         </span>
                       </div>
-                      <ListFormCreate className="mt-1" />
+                      <ListFormCreate
+                        className="mt-1"
+                        project={project}
+                        setProjects={setProjects}
+                      />
                     </div>
 
-                    {/* {project.lists?.length > 0 && (
+                    {project.lists?.length > 0 && (
                       <div className="pl-4">
                         {project.lists.map((list) => (
                           <AccordionContent
@@ -125,7 +130,7 @@ const LayoutDefault = ({ children, ...rest }: LayoutDefaultProps) => {
                           </AccordionContent>
                         ))}
                       </div>
-                    )} */}
+                    )}
                   </AccordionItem>
                 ))}
               </Accordion>
