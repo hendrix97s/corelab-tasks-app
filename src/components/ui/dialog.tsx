@@ -17,9 +17,16 @@ interface DialogProps extends React.HTMLAttributes<HTMLDivElement> {
   title: string;
   children: React.ReactNode;
   srOnly?: boolean;
+  handleConfirm?: () => void;
 }
 
-const Dialog = ({ title, srOnly, children, ...rest }: DialogProps) => {
+const Dialog = ({
+  title,
+  srOnly,
+  children,
+  handleConfirm,
+  ...rest
+}: DialogProps) => {
   const [open, setOpen] = useState(false);
   return (
     <div {...rest} className={twMerge("", rest.className)}>
@@ -46,7 +53,10 @@ const Dialog = ({ title, srOnly, children, ...rest }: DialogProps) => {
             <AlertDialogCancel className="text-shark-950">
               Cancel
             </AlertDialogCancel>
-            <AlertDialogAction className="bg-electric-violet-500 hover:bg-electric-violet-500/75">
+            <AlertDialogAction
+              className="bg-electric-violet-500 hover:bg-electric-violet-500/75"
+              onClick={handleConfirm}
+            >
               Continue
             </AlertDialogAction>
           </AlertDialogFooter>

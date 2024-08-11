@@ -1,5 +1,6 @@
 import { Toaster } from "@/components/ui/sonner";
 import { AuthProvider } from "@/contexts/use-auth";
+import { ProjectProvider } from "@/contexts/use-project";
 import { ReactNode } from "react";
 
 type MainProviderProps = {
@@ -9,8 +10,10 @@ type MainProviderProps = {
 const MainProvider = ({ children }: MainProviderProps) => {
   return (
     <AuthProvider>
-      {children}
-      <Toaster />
+      <ProjectProvider>
+        {children}
+        <Toaster />
+      </ProjectProvider>
     </AuthProvider>
   );
 };

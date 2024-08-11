@@ -1,8 +1,8 @@
-import { memo } from "react";
+import { memo, useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import CorelabLogo from "../icons/corelab-logo";
 import { Button } from "../button";
-import { List, PlusIcon } from "lucide-react";
+import { List, LogOut, PlusIcon } from "lucide-react";
 import Corelab from "../icons/corelab";
 import Image from "next/image";
 import { handleGetFirstChar, randomColor } from "@/lib/utils";
@@ -16,191 +16,28 @@ import ListFormCreate from "../list/list-form-create";
 import ProjectFormCreate from "../project/project-form-create";
 import Link from "next/link";
 import { CirclesBackground } from "@/components/CirclesBackground";
+import { useAuth } from "@/contexts/use-auth";
+import Loading from "../loading";
+import { useProject } from "@/contexts/use-project";
+import { ProjectInterface } from "@/interfaces/project-interface";
 
 interface LayoutDefaultProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
 }
 
 const LayoutDefault = ({ children, ...rest }: LayoutDefaultProps) => {
-  const projects = [
-    {
-      id: 1,
-      order: 1,
-      name: "Project 1",
-      private: true,
-      lists: [],
-    },
+  const { user, logout } = useAuth();
+  const { ProjectIndex } = useProject();
+  const [projects, setProjects] = useState<ProjectInterface[]>([]);
 
-    {
-      id: 2,
-      order: 2,
-      name: "Project 2",
-      private: true,
-      lists: [
-        {
-          id: 1,
-          order: 1,
-          name: "Lista de tarefas",
-        },
-        {
-          id: 2,
-          order: 1,
-          name: "Lista de tarefas",
-        },
-        {
-          id: 3,
-          order: 1,
-          name: "Lista de tarefas",
-        },
-      ],
-    },
-    {
-      id: 3,
-      order: 3,
-      name: "Project 3",
-      private: true,
-      lists: [
-        {
-          id: 1,
-          order: 1,
-          name: "Lista de tarefas",
-        },
-      ],
-    },
-    {
-      id: 4,
-      order: 4,
-      name: "Project 4",
-      private: true,
-      lists: [],
-    },
-    {
-      id: 5,
-      order: 5,
-      name: "Project 5",
-      private: true,
-      lists: [],
-    },
-    {
-      id: 6,
-      order: 5,
-      name: "Project 5",
-      private: true,
-      lists: [],
-    },
-    {
-      id: 7,
-      order: 5,
-      name: "Project 5",
-      private: true,
-      lists: [],
-    },
-    {
-      id: 8,
-      order: 5,
-      name: "Project 5",
-      private: true,
-      lists: [],
-    },
-    {
-      id: 9,
-      order: 5,
-      name: "Project 5",
-      private: true,
-      lists: [],
-    },
-    {
-      id: 10,
-      order: 5,
-      name: "Project 5",
-      private: true,
-      lists: [],
-    },
-    {
-      id: 11,
-      order: 5,
-      name: "Project 5",
-      private: true,
-      lists: [],
-    },
-    {
-      id: 13,
-      order: 5,
-      name: "Finished",
-      private: true,
-      lists: [],
-    },
-    {
-      id: 13,
-      order: 5,
-      name: "Finished",
-      private: true,
-      lists: [],
-    },
-    {
-      id: 13,
-      order: 5,
-      name: "Finished",
-      private: true,
-      lists: [],
-    },
-    {
-      id: 13,
-      order: 5,
-      name: "Finished",
-      private: true,
-      lists: [],
-    },
-    {
-      id: 13,
-      order: 5,
-      name: "Finished",
-      private: true,
-      lists: [],
-    },
-    {
-      id: 13,
-      order: 5,
-      name: "Finished",
-      private: true,
-      lists: [],
-    },
-    {
-      id: 13,
-      order: 5,
-      name: "Finished",
-      private: true,
-      lists: [],
-    },
-    {
-      id: 13,
-      order: 5,
-      name: "Finished",
-      private: true,
-      lists: [],
-    },
-    {
-      id: 13,
-      order: 5,
-      name: "Finished",
-      private: true,
-      lists: [],
-    },
-    {
-      id: 13,
-      order: 5,
-      name: "Finished",
-      private: true,
-      lists: [],
-    },
-    {
-      id: 13,
-      order: 5,
-      name: "Finished",
-      private: true,
-      lists: [],
-    },
-  ];
+  useEffect(() => {
+    if (!user) return;
+    ProjectIndex(user.workspace.id).then((response) => {
+      setProjects(response);
+    });
+  }, [ProjectIndex, user]);
+
+  if (!user) return <Loading />;
 
   return (
     <div
@@ -215,7 +52,7 @@ const LayoutDefault = ({ children, ...rest }: LayoutDefaultProps) => {
           <Corelab className="fill-white" height={18} />
           <div className="flex gap-4 items-center">
             <div>
-              Olá, <span className="font-semibold">Felix</span>
+              Olá, <span className="font-semibold">{user.name}</span>
             </div>
             <Image
               src="https://api.dicebear.com/9.x/bottts/svg?seed=Felix"
@@ -234,14 +71,14 @@ const LayoutDefault = ({ children, ...rest }: LayoutDefaultProps) => {
             <span className="mr-2 bg-electric-violet-700 px-2 py-1 rounded-md font-bold text-sm">
               W
             </span>
-            Workspace
+            {user.workspace.name}
           </div>
           <div className="flex flex-1 flex-col h-full overflow-hidden">
             <div className="flex justify-between items-center h-12 px-4">
               <h2 className="opacity-50 text-sm font-semibold">Projetos</h2>
-              <ProjectFormCreate />
+              <ProjectFormCreate setProjects={setProjects} />
             </div>
-            <div className="w-full flex-1 overflow-auto">
+            <div className="w-full flex-1 overflow-auto pb-4">
               <Accordion
                 type="multiple"
                 className="px-2 divide-y divide-shark-800/15"
@@ -250,7 +87,7 @@ const LayoutDefault = ({ children, ...rest }: LayoutDefaultProps) => {
                   <AccordionItem
                     value={project.id.toString()}
                     className="border-shark-800/15 "
-                    key={project.order}
+                    key={project.id}
                   >
                     <div className="flex items-center justify-between gap-2 hover:bg-shark-800 px-0 py-2 hover:px-2  rounded-md text-shark-200 relative group">
                       <div className="flex items-center gap-2">
@@ -271,7 +108,7 @@ const LayoutDefault = ({ children, ...rest }: LayoutDefaultProps) => {
                       <ListFormCreate className="mt-1" />
                     </div>
 
-                    {project.lists?.length > 0 && (
+                    {/* {project.lists?.length > 0 && (
                       <div className="pl-4">
                         {project.lists.map((list) => (
                           <AccordionContent
@@ -280,7 +117,7 @@ const LayoutDefault = ({ children, ...rest }: LayoutDefaultProps) => {
                           >
                             <List className="w-5 h-5 opacity-50" />
                             <Link
-                              href={`/workspace/1/project/${project.id}/list/${list.id}`}
+                              href={`/workspace/${user.workspace.id}/project/${project.id}/list/${list.id}`}
                               className="text-shark-200"
                             >
                               {list.name}
@@ -288,11 +125,20 @@ const LayoutDefault = ({ children, ...rest }: LayoutDefaultProps) => {
                           </AccordionContent>
                         ))}
                       </div>
-                    )}
+                    )} */}
                   </AccordionItem>
                 ))}
               </Accordion>
             </div>
+          </div>
+          <div className="flex items-center w-full h-16 font-semibold border-t border-shark-800 px-4">
+            <Button
+              className="space-x-2 w-full flex justify-between"
+              onClick={logout}
+            >
+              <span>Sair</span>
+              <LogOut className="w-4 h-4 mr-2" />
+            </Button>
           </div>
         </div>
         <main className="flex flex-col w-full  bg-shark-950 relative">

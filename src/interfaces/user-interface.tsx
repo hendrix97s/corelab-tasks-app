@@ -5,7 +5,10 @@ export interface UserInterface {
   name: string;
   email: string;
   role: string;
-  workspace: string;
+  workspace: {
+    id: number;
+    name: string;
+  };
 }
 
 export interface UsersInterface extends PaginateInterface {

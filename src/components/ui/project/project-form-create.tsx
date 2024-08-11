@@ -1,6 +1,13 @@
 "use client";
 
-import { memo, useState } from "react";
+import {
+  Dispatch,
+  memo,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { twMerge } from "tailwind-merge";
 import { Input } from "../input";
 import { Label } from "../label";
@@ -16,8 +23,19 @@ import {
 } from "../select";
 import CategoryIcon from "../icons/category-icon";
 import { randomColor } from "@/lib/utils";
+import { ProjectInterface } from "@/interfaces/project-interface";
+import { useProject } from "@/contexts/use-project";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  projectStoreSchema,
+  projectStoreSchemaFormProps,
+} from "@/validations/project-validate";
+import { useAuth } from "@/contexts/use-auth";
 
-interface ProjectFormCreateProps extends React.HTMLAttributes<HTMLDivElement> {}
+interface ProjectFormCreateProps extends React.HTMLAttributes<HTMLDivElement> {
+  setProjects: Dispatch<SetStateAction<ProjectInterface[]>>;
+}
 
 interface ModelExampleInterface {
   name: string;
@@ -27,10 +45,28 @@ interface ModelExampleInterface {
   }[];
 }
 
-const ProjectFormCreate = ({ ...rest }: ProjectFormCreateProps) => {
+const ProjectFormCreate = ({
+  setProjects,
+  ...rest
+}: ProjectFormCreateProps) => {
+  const { user } = useAuth();
+  const { ProjectStore } = useProject();
   const [statusModels, setStatusModels] = useState<
     { name: string; color: string }[]
   >([]);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm<projectStoreSchemaFormProps>({
+    resolver: zodResolver(projectStoreSchema),
+    defaultValues: {
+      name: "",
+      statuses: [],
+    },
+  });
 
   const modelExamples: ModelExampleInterface[] = [
     {
@@ -108,12 +144,33 @@ const ProjectFormCreate = ({ ...rest }: ProjectFormCreateProps) => {
     }
   };
 
+  const handleStoreProject = useCallback(
+    async (data: projectStoreSchemaFormProps) => {
+      if (!user.workspace) return;
+      const response = await ProjectStore(user.workspace.id, data);
+      setProjects((prev) => [...prev, response]);
+    },
+    [user, ProjectStore, setProjects]
+  );
+
+  useEffect(() => {
+    if (!statusModels.length) return;
+    setValue("statuses", statusModels);
+  }, [statusModels, setValue]);
+
   return (
     <div {...rest} className={twMerge("", rest.className)}>
-      <Dialog title="Criar Projeto">
+      <Dialog
+        title="Criar Projeto"
+        handleConfirm={handleSubmit(handleStoreProject)}
+      >
         <Label className="space-y-1.5">
           <span>Nome do projeto</span>
-          <Input className="bg-shark-800 border-shark-700 w-full " autoFocus />
+          <Input
+            {...register("name")}
+            className="bg-shark-800 border-shark-700 w-full "
+            autoFocus
+          />
         </Label>
 
         <div className="flex gap-4 mt-4 pt-4 border-t border-shark-800">
