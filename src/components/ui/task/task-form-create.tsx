@@ -94,7 +94,7 @@ const TaskFormCreate = ({
       <Dialog
         ghost={ghost}
         title="Criar Tarefa"
-        buttonName="Adicionar Tarefa"
+        buttonName="Tarefa"
         buttonPadding={true}
         open={open}
         setOpen={setOpen}

@@ -1,5 +1,6 @@
 "use client";
 
+import Comments from "@/components/comments";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -19,9 +20,17 @@ import CategoryIcon from "@/components/ui/icons/category-icon";
 import Corelab from "@/components/ui/icons/corelab";
 import { Input } from "@/components/ui/input";
 import Loading from "@/components/ui/loading";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { Textarea } from "@/components/ui/textarea";
 import { useAuth } from "@/contexts/use-auth";
+import { useComment } from "@/contexts/use-comment";
 import { useTask } from "@/contexts/use-task";
+import { CommentInterface } from "@/interfaces/comment-interface";
 import { TaskInterface } from "@/interfaces/task-interface";
 import {
   getPriorityByIndex,
@@ -29,14 +38,21 @@ import {
   randomColor,
 } from "@/lib/utils";
 import {
+  initializeCommentListener,
+  removeCommentListener,
+} from "@/listeners/comment-listener";
+import {
   Calendar,
   CircleDot,
   FlagTriangleLeft,
   FlagTriangleRight,
   List,
+  Menu,
+  MessageSquare,
 } from "lucide-react";
+import { cookies } from "next/headers";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 interface TaskPageProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -48,11 +64,12 @@ interface TaskPageProps extends React.HTMLAttributes<HTMLDivElement> {
   };
 }
 
-const TaskPage = ({ ...rest }: TaskPageProps) => {
+const TaskPage = ({ params, ...rest }: TaskPageProps) => {
   const { user } = useAuth();
   const { taskShow, taskUpdate } = useTask();
   const [task, setTask] = useState<TaskInterface>();
   const [description, setDescription] = useState<string>("");
+
   const color = randomColor();
 
   const handleUpdateStatusTask = (task: TaskInterface, statusId: number) => {
@@ -82,10 +99,10 @@ const TaskPage = ({ ...rest }: TaskPageProps) => {
   useEffect(
     () => {
       taskShow(
-        Number(rest.params.id),
-        Number(rest.params.project_id),
-        Number(rest.params.list_id),
-        Number(rest.params.task_id)
+        Number(params.id),
+        Number(params.project_id),
+        Number(params.list_id),
+        Number(params.task_id)
       ).then((value) => {
         setTask(value);
       });
@@ -114,7 +131,7 @@ const TaskPage = ({ ...rest }: TaskPageProps) => {
         <nav className="flex justify-between items-center w-full px-4">
           <Corelab className="fill-white" height={18} />
           <div className="flex gap-4 items-center">
-            <div>
+            <div className="max-sm:hidden">
               Olá, <span className="font-semibold">{user.name}</span>
             </div>
             <Image
@@ -150,13 +167,13 @@ const TaskPage = ({ ...rest }: TaskPageProps) => {
         </div>
       </nav>
 
-      <div className="flex flex-row flex-1  overflow-auto">
+      <div className="flex flex-row flex-1 max-sm:block  overflow-auto">
         <div className="flex-1 px-8 flex flex-col grow overflow-auto pb-4">
           <Breadcrumb className="pt-4">
             <BreadcrumbList>
               <BreadcrumbItem>
                 <BreadcrumbLink
-                  href="/workspace/1/project/2/list/4"
+                  href={`/workspace/${params.id}/project/${params.project_id}/list/${params.project_id}`}
                   className="hover:text-blue-500"
                 >
                   {task?.task_list_name}
@@ -173,7 +190,7 @@ const TaskPage = ({ ...rest }: TaskPageProps) => {
           <h1 className="font-semibold text-2xl text-shark-200 mt-6">
             {task?.name}
           </h1>
-          <div className="flex justify-between mt-6">
+          <div className="flex justify-between mt-6 max-sm:grid max-sm:grid-cols-1 max-sm:gap-4">
             <div className="flex gap-2 items-center text-shark-300/75">
               <DropdownMenu>
                 <DropdownMenuTrigger>
@@ -253,10 +270,32 @@ const TaskPage = ({ ...rest }: TaskPageProps) => {
             <div className="flex gap-2 items-center text-shark-300/75">
               <Calendar className="w-5 h-5" /> Datada de entrega
             </div>
+
+            <div className="max-sm:block sm:hidden">
+              <Sheet>
+                <SheetTrigger>
+                  <div className="flex gap-2 items-center text-shark-300/75">
+                    <MessageSquare className="w-5 h-5" /> Comentários
+                  </div>
+                </SheetTrigger>
+                <SheetContent
+                  side="bottom"
+                  className="p-0 border-none w-full h-full bg-shark-900 "
+                >
+                  <SheetDescription className="h-full p-0 text-white">
+                    <Comments
+                      id={params.id}
+                      task_id={params.task_id}
+                      className="max-sm:flex sm:flex w-full"
+                    />
+                  </SheetDescription>
+                </SheetContent>
+              </Sheet>
+            </div>
           </div>
 
           <Textarea
-            className="bg-shark-950 border-shark-800/90 mt-6 flex-1"
+            className="bg-shark-950 border-shark-800/90 mt-6 sm:flex-1 max-sm:h-32"
             defaultValue={description}
             onChange={(e) => setDescription(e.target.value)}
           />
@@ -269,16 +308,12 @@ const TaskPage = ({ ...rest }: TaskPageProps) => {
             </Button>
           </div>
         </div>
-        <div className="w-1/3  h-full flex flex-col border-l border-shark-800">
-          <div className="h-16 border-b border-shark-800 flex items-center px-8 ">
-            <h1 className="text-lg font-semibold">Comentários</h1>
-          </div>
-          <div className="flex-1 bg-shark-950"></div>
-          <div className="p-4 border-t border-shark-800 flex gap-4">
-            <Input className="bg-shark-950 border-shark-800 " />
-            <Button className="w-fit">Enviar </Button>
-          </div>
-        </div>
+
+        <Comments
+          id={params.id}
+          task_id={params.task_id}
+          className="max-sm:hidden sm:flex"
+        />
       </div>
     </div>
   );
