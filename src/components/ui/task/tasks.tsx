@@ -1,5 +1,4 @@
 import { Dispatch, memo, SetStateAction } from "react";
-import { twMerge } from "tailwind-merge";
 import {
   AccordionContent,
   AccordionItem,
@@ -7,8 +6,6 @@ import {
 } from "../accordion";
 import { cn } from "@/lib/utils";
 import CategoryIcon from "../icons/category-icon";
-import { Button } from "../button";
-import { PlusIcon } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -23,19 +20,19 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../dropdown-menu";
 import { StatusInterface } from "@/interfaces/status-interface";
 import { useTask } from "@/contexts/use-task";
+import TaskFormCreate from "./task-form-create";
+import { TaskListInterface } from "@/interfaces/task-list-interface";
 
 interface TasksProps extends React.HTMLAttributes<HTMLDivElement> {
+  taskList: TaskListInterface | undefined;
   statuses: StatusInterface[];
   tasks: TaskInterface[] | undefined;
   setTasks: Dispatch<SetStateAction<TaskInterface[] | undefined>>;
-  statusColor: string;
-  statusName: string;
+  status: StatusInterface;
   value: string;
 }
 
@@ -43,8 +40,8 @@ const Tasks = ({
   statuses,
   tasks,
   setTasks,
-  statusColor,
-  statusName,
+  taskList,
+  status,
   value,
   ...rest
 }: TasksProps) => {
@@ -65,21 +62,29 @@ const Tasks = ({
     <AccordionItem
       {...rest}
       value={value}
-      className={cn(" border-none", rest.className)}
+      className={cn(" border-none ", rest.className)}
     >
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 sticky top-0 bg-shark-950 z-10 py-4">
         <AccordionTrigger className="w-4 h-4 bg-shark-800 rounded-sm py-0" />
 
         <div
           className=" w-fit py-1.5 px-2 rounded-lg flex items-center gap-2"
-          style={{ backgroundColor: statusColor }}
+          style={{ backgroundColor: status.color }}
         >
           <CategoryIcon width={18} height={18} className="fill-white" />
-          <span className="font-semibold text-xs">{statusName}</span>
+          <span className="font-semibold text-xs">{status.name}</span>
         </div>
+
+        <TaskFormCreate
+          taskList={taskList}
+          setTasks={setTasks}
+          ghost={true}
+          statusId={status.id}
+        />
       </div>
+
       <AccordionContent className="flex flex-row gap-2 items-center">
-        <Table className="mt-2">
+        <Table className="">
           <TableHeader className="divide-shark-900 border-shark-900">
             <TableRow className="hover:bg-shark-950  divide-shark-800 border-shark-800 ">
               <TableHead className=" text-shark-400 pl-1">Nome</TableHead>
@@ -108,7 +113,7 @@ const Tasks = ({
                             width={18}
                             height={18}
                             style={{
-                              fill: statusColor,
+                              fill: status.color,
                             }}
                           />
                         </DropdownMenuTrigger>
@@ -157,6 +162,16 @@ const Tasks = ({
                   </TableCell>
                 </TableRow>
               ))}
+            <TableRow className="hover:bg-transparent">
+              <TableCell>
+                <TaskFormCreate
+                  taskList={taskList}
+                  setTasks={setTasks}
+                  ghost={true}
+                  statusId={status.id}
+                />
+              </TableCell>
+            </TableRow>
           </TableBody>
         </Table>
       </AccordionContent>

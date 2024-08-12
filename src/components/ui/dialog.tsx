@@ -12,6 +12,7 @@ import {
 } from "./alert-dialog";
 import { Button } from "./button";
 import { PlusIcon } from "lucide-react";
+import { boolean } from "zod";
 
 interface DialogProps extends React.HTMLAttributes<HTMLDivElement> {
   title: string;
@@ -22,6 +23,8 @@ interface DialogProps extends React.HTMLAttributes<HTMLDivElement> {
   handleConfirm?: () => void;
   open?: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
+  ghost?: boolean;
+  statusId?: number;
 }
 
 const Dialog = ({
@@ -33,6 +36,8 @@ const Dialog = ({
   handleConfirm,
   open,
   setOpen,
+  ghost,
+  statusId,
   ...rest
 }: DialogProps) => {
   return (
@@ -40,9 +45,13 @@ const Dialog = ({
       <AlertDialog onOpenChange={setOpen} open={open}>
         <Button
           className={` flex gap-1 ${
-            srOnly ? "sr-only group-hover:not-sr-only" : ""
+            srOnly && !ghost ? "sr-only group-hover:not-sr-only" : ""
           }
-          ${buttonPadding ? "" : "h-fit p-0"} `}
+          ${buttonPadding && !ghost ? "" : "h-fit p-0"}  ${
+            ghost
+              ? "bg-transparent hover:bg-transparent text-shark-200 hover:text-green-500 ml-4"
+              : ""
+          } `}
           onClick={() => setOpen(true)}
         >
           <PlusIcon className="w-4 h-4" />

@@ -1,4 +1,11 @@
-import { Dispatch, memo, SetStateAction, useCallback, useState } from "react";
+import {
+  Dispatch,
+  memo,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { twMerge } from "tailwind-merge";
 import { Input } from "../input";
 import { Label } from "../label";
@@ -27,11 +34,15 @@ import CategoryIcon from "../icons/category-icon";
 interface TaskFormCreateProps extends React.HTMLAttributes<HTMLDivElement> {
   taskList: TaskListInterface | undefined;
   setTasks: Dispatch<SetStateAction<TaskInterface[] | undefined>>;
+  ghost?: boolean;
+  statusId?: number;
 }
 
 const TaskFormCreate = ({
   taskList,
   setTasks,
+  ghost,
+  statusId,
   ...rest
 }: TaskFormCreateProps) => {
   const { user } = useAuth();
@@ -73,17 +84,24 @@ const TaskFormCreate = ({
     [user, taskStore, taskList, setTasks, reset]
   );
 
+  useEffect(() => {
+    if (!statusId) return;
+    setValue("status_id", statusId);
+  }, [statusId, setValue]);
+
   return (
     <div {...rest} className={twMerge("", rest.className)}>
       <Dialog
+        ghost={ghost}
         title="Criar Tarefa"
         buttonName="Adicionar Tarefa"
         buttonPadding={true}
         open={open}
         setOpen={setOpen}
         handleConfirm={handleSubmit(handleStoreTask)}
+        statusId={statusId}
       >
-        <div className="flex gap-4">
+        <div className="flex items-end gap-4">
           <Label className="space-y-1.5 flex-1">
             <span>Nome da tarefa</span>
             <Input
@@ -95,37 +113,59 @@ const TaskFormCreate = ({
               <span className="text-red-500">{errors.name.message}</span>
             )}
           </Label>
-
-          <Label className="space-y-1.5">
-            <span>Modelo de status</span>
-            <Select
-              onValueChange={(value) => setValue("status_id", Number(value))}
-            >
-              <SelectTrigger className="w-[180px] bg-shark-800 text-shark-300 border-shark-700 focus:ring-0">
-                <SelectValue placeholder="Selecione.." />
-              </SelectTrigger>
-              <SelectContent className="bg-shark-950 border-shark-950">
-                <SelectGroup className="text-shark-300">
-                  {taskList?.project.statuses &&
-                    taskList?.project.statuses.map((status) => (
-                      <SelectItem key={status.id} value={status.id.toString()}>
-                        <div className="flex items-center gap-2">
-                          <CategoryIcon
-                            width={18}
-                            height={18}
-                            className="fill-white top-0 left-2"
-                            style={{
-                              fill: status.color,
-                            }}
-                          />
-                          {status.name}
-                        </div>
-                      </SelectItem>
-                    ))}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-          </Label>
+          {!statusId ? (
+            <Label className="space-y-1.5">
+              <span>Modelo de status</span>
+              <Select
+                onValueChange={(value) => setValue("status_id", Number(value))}
+              >
+                <SelectTrigger className="w-[180px] bg-shark-800 text-shark-300 border-shark-700 focus:ring-0">
+                  <SelectValue placeholder="Selecione.." />
+                </SelectTrigger>
+                <SelectContent className="bg-shark-950 border-shark-950">
+                  <SelectGroup className="text-shark-300">
+                    {taskList?.project.statuses &&
+                      taskList?.project.statuses.map((status) => (
+                        <SelectItem
+                          key={status.id}
+                          value={status.id.toString()}
+                        >
+                          <div className="flex items-center gap-2">
+                            <CategoryIcon
+                              width={18}
+                              height={18}
+                              className="fill-white top-0 left-2"
+                              style={{
+                                fill: status.color,
+                              }}
+                            />
+                            {status.name}
+                          </div>
+                        </SelectItem>
+                      ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </Label>
+          ) : (
+            <div className="w-fit px-4 flex gap-2 mb-2">
+              <CategoryIcon
+                width={18}
+                height={18}
+                className="fill-white top-0 left-2"
+                style={{
+                  fill: taskList?.project.statuses?.find(
+                    (status) => status.id === statusId
+                  )?.color,
+                }}
+              />
+              {
+                taskList?.project.statuses?.find(
+                  (status) => status.id === statusId
+                )?.name
+              }
+            </div>
+          )}
         </div>
       </Dialog>
     </div>

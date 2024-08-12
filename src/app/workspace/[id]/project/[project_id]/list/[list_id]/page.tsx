@@ -101,11 +101,11 @@ const ListPage = ({ params }: ListPageProps) => {
                 >
                   {handleGetTasksByStatusName(status.name)?.length > 0 && (
                     <Tasks
+                      taskList={taskList}
                       statuses={taskList.project.statuses}
                       key={status.id}
                       value={status.name}
-                      statusColor={status.color}
-                      statusName={status.name}
+                      status={status}
                       tasks={handleGetTasksByStatusName(status.name)}
                       setTasks={setTasks}
                     />
