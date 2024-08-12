@@ -47,19 +47,19 @@ export default function Register() {
         router.push(`/workspace/${value.workspace.id}`);
       });
     },
-    []
+    [router]
   );
 
   return (
     <AuthLayout
-      title="Sign up for an account"
+      title="Crie uma conta"
       subtitle={
         <>
-          Already registered?{" "}
+          Já possui uma conta?{" "}
           <Link href="/login" className="text-cyan-600">
-            Sign in
+            Entre
           </Link>{" "}
-          to your account.
+          com sua conta.
         </>
       }
     >

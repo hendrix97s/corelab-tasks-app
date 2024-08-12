@@ -55,16 +55,16 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
-interface TaskPageProps extends React.HTMLAttributes<HTMLDivElement> {
+type TaskPageProps = {
   params: {
     id: string;
     project_id: string;
     list_id: string;
     task_id: string;
   };
-}
+};
 
-const TaskPage = ({ params, ...rest }: TaskPageProps) => {
+const TaskPage = ({ params }: TaskPageProps) => {
   const { user } = useAuth();
   const { taskShow, taskUpdate } = useTask();
   const [task, setTask] = useState<TaskInterface>();
@@ -120,13 +120,7 @@ const TaskPage = ({ params, ...rest }: TaskPageProps) => {
   if (!user) return <Loading />;
 
   return (
-    <div
-      {...rest}
-      className={twMerge(
-        "h-screen overflow-hidden flex flex-col bg-shark-900",
-        rest.className
-      )}
-    >
+    <div className="h-screen overflow-hidden flex flex-col bg-shark-900">
       <header className="h-14 w-full bg-shark-800 flex items-center justify-center">
         <nav className="flex justify-between items-center w-full px-4">
           <Corelab className="fill-white" height={18} />

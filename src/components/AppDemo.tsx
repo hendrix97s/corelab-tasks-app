@@ -97,17 +97,24 @@ function Chart({
           <stop offset="100%" stopColor="#9a4aff" stopOpacity="0" />
         </linearGradient>
       </defs>
-      {[...Array(gridLines - 1).keys()].map((index) => (
-        <line
-          key={index}
-          stroke="#a3a3a3"
-          opacity="0.1"
-          x1="0"
-          y1={(totalHeight / gridLines) * (index + 1)}
-          x2={totalWidth}
-          y2={(totalHeight / gridLines) * (index + 1)}
-        />
-      ))}
+      <motion.svg
+        width={totalWidth}
+        height={totalHeight}
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        {Array.from({ length: gridLines - 1 }, (_, index) => (
+          <motion.line
+            key={index}
+            stroke="#a3a3a3"
+            opacity="0.1"
+            x1="0"
+            y1={(totalHeight / gridLines) * (index + 1)}
+            x2={totalWidth}
+            y2={(totalHeight / gridLines) * (index + 1)}
+            transition={{ duration: 0.3 }} // Adicione uma transição se necessário
+          />
+        ))}
+      </motion.svg>
       <motion.rect
         y={paddingY}
         width={pathWidth}
