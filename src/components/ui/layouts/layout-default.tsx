@@ -56,7 +56,7 @@ const LayoutDefault = ({ children, ...rest }: LayoutDefaultProps) => {
               Olá, <span className="font-semibold">{user.name}</span>
             </div>
             <Image
-              src="https://api.dicebear.com/9.x/bottts/svg?seed=Felix"
+              src={`https://api.dicebear.com/9.x/bottts/svg?seed=${user.name}`}
               width={500}
               height={500}
               alt="Felix"

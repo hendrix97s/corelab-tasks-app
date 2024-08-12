@@ -25,7 +25,7 @@ const TaskHeader = ({ taskList, setTasks, ...rest }: TaskHeaderProps) => {
                 border: randomColor(),
               }}
             >
-              {handleGetFirstChar("Embedder Hub")}
+              {handleGetFirstChar(taskList?.project.name!)}
             </span>
             <span>{taskList?.project.name}</span>
           </div>

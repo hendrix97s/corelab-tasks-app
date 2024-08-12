@@ -4,7 +4,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "../accordion";
-import { cn } from "@/lib/utils";
+import { cn, getPriorityByIndex } from "@/lib/utils";
 import CategoryIcon from "../icons/category-icon";
 import {
   Table,
@@ -26,6 +26,9 @@ import { StatusInterface } from "@/interfaces/status-interface";
 import { useTask } from "@/contexts/use-task";
 import TaskFormCreate from "./task-form-create";
 import { TaskListInterface } from "@/interfaces/task-list-interface";
+import TaskView from "./task-view";
+import Link from "next/link";
+import { useAuth } from "@/contexts/use-auth";
 
 interface TasksProps extends React.HTMLAttributes<HTMLDivElement> {
   taskList: TaskListInterface | undefined;
@@ -45,10 +48,10 @@ const Tasks = ({
   value,
   ...rest
 }: TasksProps) => {
+  const { user } = useAuth();
   const { taskUpdate } = useTask();
 
   const handleUpdateStatusTask = (task: TaskInterface, statusId: number) => {
-    console.log("handleUpdateStatusTask:", task, statusId);
     taskUpdate(task.workspace.id, task.project.id, task.task_list_id, task.id, {
       status_id: statusId,
     }).then((updatedTask) => {
@@ -89,9 +92,7 @@ const Tasks = ({
             <TableRow className="hover:bg-shark-950  divide-shark-800 border-shark-800 ">
               <TableHead className=" text-shark-400 pl-1">Nome</TableHead>
               <TableHead className="text-shark-400">Responsável</TableHead>
-              <TableHead className="text-shark-400">
-                Data de vencimento
-              </TableHead>
+
               <TableHead className="text-right text-shark-400">
                 Prioridade
               </TableHead>
@@ -140,25 +141,30 @@ const Tasks = ({
                         </DropdownMenuContent>
                       </DropdownMenu>
 
-                      <span className="text-shark-200 font-semibold">
+                      <Link
+                        href={`/workspace/${task.workspace.id}/project/${task.project.id}/list/${task.task_list_id}/task/${task.id}`}
+                        className="text-shark-200 font-semibold"
+                      >
                         {task.name}
-                      </span>
+                      </Link>
                     </div>
                   </TableCell>
                   <TableCell className="py-1">
-                    <Image
-                      src={`https://api.dicebear.com/9.x/bottts/svg?seed=${
-                        task.assignable?.name ?? "Felix"
-                      }`}
-                      width={500}
-                      height={500}
-                      alt="Felix"
-                      className="w-8"
-                    />
+                    <div className="flex gap-2 items-center">
+                      <Image
+                        src={`https://api.dicebear.com/9.x/bottts/svg?seed=${
+                          user.name ?? "Felix"
+                        }`}
+                        width={500}
+                        height={500}
+                        alt="Felix"
+                        className="w-8"
+                      />
+                      {user.name}
+                    </div>
                   </TableCell>
-                  <TableCell className="py-1">x</TableCell>
                   <TableCell className="text-right py-1">
-                    {task.priority}
+                    {getPriorityByIndex(task.priority)}
                   </TableCell>
                 </TableRow>
               ))}

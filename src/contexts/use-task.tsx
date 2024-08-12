@@ -30,6 +30,13 @@ interface TaskContextProps {
     payload: taskStoreSchemaFormProps
   ) => Promise<TaskInterface>;
 
+  taskShow: (
+    workspaceId: number,
+    projectId: number,
+    taskListId: number,
+    id: number
+  ) => Promise<TaskInterface>;
+
   taskUpdate: (
     workspaceId: number,
     projectId: number,
@@ -125,20 +132,28 @@ const TaskProvider = ({ children }: TaskProps) => {
     []
   );
 
-  const taskShow = useCallback(async (uuid: string) => {
-    try {
-      setLoading(true);
-      const response = await axios.get(`${uuid}`);
+  const taskShow = useCallback(
+    async (
+      workspaceId: number,
+      projectId: number,
+      taskListId: number,
+      id: number
+    ) => {
+      try {
+        setLoading(true);
+        const response = await axios.get(
+          `api/workspace/${workspaceId}/project/${projectId}/task-list/${taskListId}/task/${id}`
+        );
 
-      toast("sucesso");
-
-      return response.data;
-    } catch (error) {
-      toast("falha");
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+        return response.data;
+      } catch (error) {
+        toast("Falha ao buscar Tarefa");
+      } finally {
+        setLoading(false);
+      }
+    },
+    []
+  );
 
   const taskDestroy = useCallback(async (uuid: string) => {
     try {
@@ -187,6 +202,7 @@ const TaskProvider = ({ children }: TaskProps) => {
   const values = {
     taskIndex,
     taskStore,
+    taskShow,
     taskUpdate,
     addTaskOnTasks,
     removeTaskOnTasks,

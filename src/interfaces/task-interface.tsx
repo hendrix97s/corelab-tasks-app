@@ -13,7 +13,8 @@ export interface TaskInterface {
   workspace: WorkspaceInterface;
   task_list: TaskListInterface;
   expires_at?: string;
-  priority?: string;
+  priority: number;
   assignable?: UserInterface;
   task_list_id: number;
+  task_list_name: string;
 }

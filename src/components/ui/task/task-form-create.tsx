@@ -148,7 +148,14 @@ const TaskFormCreate = ({
               </Select>
             </Label>
           ) : (
-            <div className="w-fit px-4 flex gap-2 mb-2">
+            <div
+              className="w-fit px-4 flex gap-2 mb-2"
+              style={{
+                color: taskList?.project.statuses?.find(
+                  (status) => status.id === statusId
+                )?.color,
+              }}
+            >
               <CategoryIcon
                 width={18}
                 height={18}

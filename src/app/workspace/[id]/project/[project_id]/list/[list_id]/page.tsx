@@ -114,7 +114,7 @@ const ListPage = ({ params }: ListPageProps) => {
               ))}
           </Accordion>
         ) : (
-          <div className="h-full flex flex-col justify-center items-center ">
+          <div className="h-full flex flex-col justify-center items-center p-36">
             <Image
               src="/empty-cuate.svg"
               width={1000}

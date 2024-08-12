@@ -1,23 +1,23 @@
-import { useId } from 'react'
-import Image from 'next/image'
-import clsx from 'clsx'
+import { useId } from "react";
+import Image from "next/image";
+import clsx from "clsx";
 
-import { AppDemo } from '@/components/AppDemo'
-import { AppStoreLink } from '@/components/AppStoreLink'
-import { Button } from '@/components/Button'
-import { Container } from '@/components/Container'
-import { PhoneFrame } from '@/components/PhoneFrame'
-import logoBbc from '@/images/logos/bbc.svg'
-import logoCbs from '@/images/logos/cbs.svg'
-import logoCnn from '@/images/logos/cnn.svg'
-import logoFastCompany from '@/images/logos/fast-company.svg'
-import logoForbes from '@/images/logos/forbes.svg'
-import logoHuffpost from '@/images/logos/huffpost.svg'
-import logoTechcrunch from '@/images/logos/techcrunch.svg'
-import logoWired from '@/images/logos/wired.svg'
+import { AppDemo } from "@/components/AppDemo";
+import { AppStoreLink } from "@/components/AppStoreLink";
+import { Button } from "@/components/Button";
+import { Container } from "@/components/Container";
+import { PhoneFrame } from "@/components/PhoneFrame";
+import logoBbc from "@/images/logos/bbc.svg";
+import logoCbs from "@/images/logos/cbs.svg";
+import logoCnn from "@/images/logos/cnn.svg";
+import logoFastCompany from "@/images/logos/fast-company.svg";
+import logoForbes from "@/images/logos/forbes.svg";
+import logoHuffpost from "@/images/logos/huffpost.svg";
+import logoTechcrunch from "@/images/logos/techcrunch.svg";
+import logoWired from "@/images/logos/wired.svg";
 
-function BackgroundIllustration(props: React.ComponentPropsWithoutRef<'div'>) {
-  let id = useId()
+function BackgroundIllustration(props: React.ComponentPropsWithoutRef<"div">) {
+  let id = useId();
 
   return (
     <div {...props}>
@@ -29,7 +29,7 @@ function BackgroundIllustration(props: React.ComponentPropsWithoutRef<'div'>) {
       >
         <path
           d="M1025 513c0 282.77-229.23 512-512 512S1 795.77 1 513 230.23 1 513 1s512 229.23 512 512Z"
-          stroke="#D4D4D4"
+          stroke="#9a4aff"
           strokeOpacity="0.7"
         />
         <path
@@ -46,8 +46,8 @@ function BackgroundIllustration(props: React.ComponentPropsWithoutRef<'div'>) {
             y2="1025"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stopColor="#06b6d4" />
-            <stop offset="1" stopColor="#06b6d4" stopOpacity="0" />
+            <stop stopColor="#9a4aff" />
+            <stop offset="1" stopColor="#9a4aff" stopOpacity="0" />
           </linearGradient>
         </defs>
       </svg>
@@ -59,7 +59,7 @@ function BackgroundIllustration(props: React.ComponentPropsWithoutRef<'div'>) {
       >
         <path
           d="M913 513c0 220.914-179.086 400-400 400S113 733.914 113 513s179.086-400 400-400 400 179.086 400 400Z"
-          stroke="#D4D4D4"
+          stroke="#9a4aff"
           strokeOpacity="0.7"
         />
         <path
@@ -76,26 +76,26 @@ function BackgroundIllustration(props: React.ComponentPropsWithoutRef<'div'>) {
             y2="913"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stopColor="#06b6d4" />
-            <stop offset="1" stopColor="#06b6d4" stopOpacity="0" />
+            <stop stopColor="#9a4aff" />
+            <stop offset="1" stopColor="#9a4aff" stopOpacity="0" />
           </linearGradient>
         </defs>
       </svg>
     </div>
-  )
+  );
 }
 
-function PlayIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
+function PlayIcon(props: React.ComponentPropsWithoutRef<"svg">) {
   return (
     <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>
-      <circle cx="12" cy="12" r="11.5" stroke="#D4D4D4" />
+      <circle cx="12" cy="12" r="11.5" stroke="#9a4aff" />
       <path
         d="M9.5 14.382V9.618a.5.5 0 0 1 .724-.447l4.764 2.382a.5.5 0 0 1 0 .894l-4.764 2.382a.5.5 0 0 1-.724-.447Z"
-        fill="#A3A3A3"
-        stroke="#A3A3A3"
+        fill="#9a4aff"
+        stroke="#9a4aff"
       />
     </svg>
-  )
+  );
 }
 
 export function Hero() {
@@ -140,16 +140,16 @@ export function Hero() {
               className="mx-auto mt-8 flex max-w-xl flex-wrap justify-center gap-x-10 gap-y-8 lg:mx-0 lg:justify-start"
             >
               {[
-                ['Forbes', logoForbes],
-                ['TechCrunch', logoTechcrunch],
-                ['Wired', logoWired],
-                ['CNN', logoCnn, 'hidden xl:block'],
-                ['BBC', logoBbc],
-                ['CBS', logoCbs],
-                ['Fast Company', logoFastCompany],
-                ['HuffPost', logoHuffpost, 'hidden xl:block'],
+                ["Forbes", logoForbes],
+                ["TechCrunch", logoTechcrunch],
+                ["Wired", logoWired],
+                ["CNN", logoCnn, "hidden xl:block"],
+                ["BBC", logoBbc],
+                ["CBS", logoCbs],
+                ["Fast Company", logoFastCompany],
+                ["HuffPost", logoHuffpost, "hidden xl:block"],
               ].map(([name, logo, className]) => (
-                <li key={name} className={clsx('flex', className)}>
+                <li key={name} className={clsx("flex", className)}>
                   <Image src={logo} alt={name} className="h-8" unoptimized />
                 </li>
               ))}
@@ -158,5 +158,5 @@ export function Hero() {
         </div>
       </Container>
     </div>
-  )
+  );
 }

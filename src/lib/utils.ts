@@ -72,3 +72,7 @@ export const validarCPF = (cpf: string): boolean => {
     segundoDigitoVerificador === parseInt(cpf.charAt(10))
   );
 };
+
+export const getPriorityByIndex = (index: number) => {
+  return ["Baixo", "Médio", "Alto"][index];
+};

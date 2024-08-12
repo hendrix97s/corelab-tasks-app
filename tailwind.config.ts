@@ -18,6 +18,9 @@ const config = {
       },
     },
     extend: {
+      scrollBehavior: {
+        smooth: "smooth",
+      },
       colors: {
         shark: {
           "50": "#f4f6f7",
