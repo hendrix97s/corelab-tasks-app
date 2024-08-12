@@ -90,7 +90,7 @@ const LayoutDefault = ({ children, ...rest }: LayoutDefaultProps) => {
       </header>
 
       <div className="flex-1 flex flex-row w-full overflow-auto">
-        <SidebarDefault className="max-sm:hidden sm:block" />
+        <SidebarDefault className="max-sm:hidden " />
         <main className="flex flex-col w-full  bg-shark-950 relative">
           {children}
         </main>

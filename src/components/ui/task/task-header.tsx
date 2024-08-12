@@ -36,11 +36,11 @@ const TaskHeader = ({ taskList, setTasks, ...rest }: TaskHeaderProps) => {
           </span>
         </div>
 
-        <div className="flex gap-2 max-sm:px-5 max-sm:py-4 max-sm:w-full ">
-          <Input
+        <div className="flex gap-2 max-sm:px-5 max-sm:py-4 max-sm:w-full justify-end ">
+          {/* <Input
             className="bg-shark-950 border-shark-900 w-fit max-sm:w-full"
             placeholder="Pesquisar tarefas..."
-          />
+          /> */}
           <TaskFormCreate taskList={taskList} setTasks={setTasks} />
         </div>
       </nav>

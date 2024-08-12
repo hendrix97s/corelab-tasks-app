@@ -173,7 +173,7 @@ const TaskPage = ({ params, ...rest }: TaskPageProps) => {
             <BreadcrumbList>
               <BreadcrumbItem>
                 <BreadcrumbLink
-                  href={`/workspace/${params.id}/project/${params.project_id}/list/${params.project_id}`}
+                  href={`/workspace/${params.id}/project/${params.project_id}/list/${params.list_id}`}
                   className="hover:text-blue-500"
                 >
                   {task?.task_list_name}

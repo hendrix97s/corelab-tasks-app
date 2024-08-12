@@ -21,10 +21,12 @@ import {
   updateUserSchemaFormProps,
 } from "@/validations/user-validate";
 import { toast } from "sonner";
+import { register } from "module";
 
 type AuthContextProps = {
   user: UserInterface;
   login: (data: signInUserSchemaFormProps) => Promise<UserInterface>;
+  userRegister: (data: storeUserSchemaFormProps) => Promise<UserInterface>;
   logout: () => void;
 };
 
@@ -85,6 +87,31 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
       setLoading(false);
     }
   }, [router]);
+
+  const userRegister = useCallback(
+    async (data: storeUserSchemaFormProps) => {
+      try {
+        setLoading(true);
+        const response = await axios.post("/register", data);
+
+        if (response.status !== 200)
+          throw new Error("Falha ao registrar usuário");
+
+        setCookie(
+          process.env.NEXT_PUBLIC_USER_PERSONAL_ACCESS_TOKEN!,
+          response.data.token
+        );
+
+        mutate();
+        return response.data;
+      } catch (error: any) {
+        toast("Falha ao efetuar login");
+      } finally {
+        setLoading(false);
+      }
+    },
+    [mutate]
+  );
 
   const userStore = useCallback(
     async (companyUuid: string, payload: storeUserSchemaFormProps) => {
@@ -162,6 +189,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     user,
     login,
     logout,
+    userRegister,
     addNewUserOnUsers,
     updateUserOnUsers,
   };

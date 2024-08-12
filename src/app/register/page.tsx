@@ -1,75 +1,127 @@
-import { type Metadata } from 'next'
-import Link from 'next/link'
+"use client";
 
-import { AuthLayout } from '@/components/AuthLayout'
-import { Button } from '@/components/Button'
-import { SelectField, TextField } from '@/components/Fields'
+import { type Metadata } from "next";
+import Link from "next/link";
 
-export const metadata: Metadata = {
-  title: 'Sign Up',
-}
+import { AuthLayout } from "@/components/AuthLayout";
+import {
+  storeUserSchema,
+  storeUserSchemaFormProps,
+} from "@/validations/user-validate";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import Head from "next/head";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { useAuth } from "@/contexts/use-auth";
+import { useCallback } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Register() {
+  const router = useRouter();
+  const { userRegister } = useAuth();
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    watch,
+    setValue,
+    formState: { errors },
+  } = useForm<storeUserSchemaFormProps>({
+    criteriaMode: "all",
+    mode: "all",
+    resolver: zodResolver(storeUserSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+      password_confirmation: "",
+    },
+  });
+
+  const handleStoreUser = useCallback(
+    async (data: storeUserSchemaFormProps) => {
+      userRegister(data).then((value) => {
+        router.push(`/workspace/${value.workspace.id}`);
+      });
+    },
+    []
+  );
+
   return (
     <AuthLayout
       title="Sign up for an account"
       subtitle={
         <>
-          Already registered?{' '}
+          Already registered?{" "}
           <Link href="/login" className="text-cyan-600">
             Sign in
-          </Link>{' '}
+          </Link>{" "}
           to your account.
         </>
       }
     >
-      <form>
-        <div className="grid grid-cols-2 gap-6">
-          <TextField
-            label="First name"
-            name="first_name"
-            type="text"
-            autoComplete="given-name"
+      {" "}
+      <Head>
+        <title>Sign Up</title>
+      </Head>
+      <div className="flex flex-col gap-6">
+        <Label className="w-full">
+          <span>Nome</span>
+          <Input
+            {...register("name")}
             required
+            className="col-span-full bg-shark-800 border-shark-700 my-1.5"
           />
-          <TextField
-            label="Last name"
-            name="last_name"
-            type="text"
-            autoComplete="family-name"
-            required
-          />
-          <TextField
-            className="col-span-full"
-            label="Email address"
-            name="email"
+          {errors.name?.message && (
+            <span className="text-red-500 mt-2">{errors.name.message}</span>
+          )}
+        </Label>
+
+        <Label className="w-full">
+          <span>Email</span>
+          <Input
+            {...register("email")}
             type="email"
-            autoComplete="email"
             required
+            className="col-span-full bg-shark-800 border-shark-700 my-1.5"
           />
-          <TextField
-            className="col-span-full"
-            label="Password"
-            name="password"
-            type="password"
-            autoComplete="new-password"
+          {errors.email?.message && (
+            <span className="text-red-500 mt-2">{errors.email.message}</span>
+          )}
+        </Label>
+
+        <Label className="w-full">
+          <span>Senha</span>
+          <Input
+            {...register("password")}
             required
+            className="col-span-full bg-shark-800 border-shark-700 my-1.5"
           />
-          <SelectField
-            className="col-span-full"
-            label="How did you hear about us?"
-            name="referral_source"
-          >
-            <option>AltaVista search</option>
-            <option>Super Bowl commercial</option>
-            <option>Our route 34 city bus ad</option>
-            <option>The “Never Use This” podcast</option>
-          </SelectField>
-        </div>
-        <Button type="submit" color="cyan" className="mt-8 w-full">
-          Get started today
-        </Button>
-      </form>
+          {errors.password?.message && (
+            <span className="text-red-500 mt-2">{errors.password.message}</span>
+          )}
+        </Label>
+
+        <Label className="w-full">
+          <span>Confirmar senha</span>
+          <Input
+            {...register("password_confirmation")}
+            required
+            className="col-span-full bg-shark-800 border-shark-700 my-1.5"
+          />
+          {errors.password_confirmation?.message && (
+            <span className="text-red-500 mt-2">
+              {errors.password_confirmation.message}
+            </span>
+          )}
+        </Label>
+      </div>
+      <Button className="mt-8 w-full" onClick={handleSubmit(handleStoreUser)}>
+        Cadastrar
+      </Button>
     </AuthLayout>
-  )
+  );
 }

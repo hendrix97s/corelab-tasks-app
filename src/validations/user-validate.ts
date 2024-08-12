@@ -23,7 +23,6 @@ export const signInUserSchema = z.object({
 export const storeUserSchema = z
   .object({
     name: z.string().nonempty("O campo Nome é obrigatório."),
-    role: z.string().nonempty("O campo Role é obrigatório."),
 
     email: z
       .string()

@@ -1,58 +1,61 @@
-import { Container } from '@/components/Container'
+import { Container } from "@/components/Container";
 
 const faqs = [
   [
     {
-      question: 'How do I know the tips are good?',
+      question: "Como sei se as dicas de tarefas são eficazes?",
       answer:
-        'Our whole business depends on our tips being good, so it’s in our best interest that they are. The results of our customers speak for themselves, just trust us.',
+        "Nossa aplicação depende da eficácia das nossas dicas, por isso garantimos que sejam precisas. Os resultados dos nossos usuários falam por si mesmos, confie em nós.",
     },
     {
-      question: 'Isn’t this insider trading?',
+      question: "Isso não é um tipo de manipulação de informações?",
       answer:
-        'Yes exactly. But at scale! Historically you could only make insider trades with knowledge from your direct network. Pocket brings you insider trading tips from people you don’t even know.',
+        "Não, nossas dicas são baseadas em análises e melhores práticas para a gestão de tarefas. A nossa aplicação visa ajudar na organização e eficiência, não na manipulação.",
     },
     {
-      question: 'But isn’t insider trading illegal?',
+      question: "Mas não há risco de segurança na gestão de tarefas?",
       answer:
-        'Here’s the thing: you’re the one doing the insider trading, not us. We’re just giving you the tips and some tools to make trades. We’re not doing anything wrong here.',
+        "Nosso objetivo é fornecer ferramentas e dicas para melhorar a produtividade, não para comprometer a segurança. Estamos aqui para ajudar a gerenciar suas tarefas de forma segura e eficaz.",
     },
   ],
   [
     {
-      question: 'Do the people giving you tips realize what they are doing?',
+      question:
+        "As pessoas que fornecem dicas na aplicação sabem o que estão fazendo?",
       answer:
-        'Again I would argue this isn’t really our responsibility. People make their own choices. If they don’t research the consequences that’s on them, not on us.',
+        "Sim, as dicas são baseadas em práticas recomendadas e feedback de especialistas na área de gerenciamento de tarefas. Cada dica é projetada para ajudar a melhorar sua organização e produtividade.",
     },
     {
-      question: 'Where is Pocket based?',
+      question: "Onde está localizada a nossa aplicação?",
       answer:
-        'Let’s just say it’s not somewhere where the SEC is going to find us.',
+        "A nossa aplicação está disponível globalmente, mas garantimos que estamos em conformidade com as regulamentações locais de privacidade e segurança.",
     },
     {
-      question: 'Is there any age limit to trading on Pocket?',
+      question: "Há alguma restrição de idade para usar a aplicação?",
       answer:
-        'For our free plan, the age limit is based on the minimum age to trade in your country of residence. Our VIP plan uses advanced transaction anonymization though, so you can use that plan even if you’re 9 years old. Or a dog.',
+        "Não há restrição de idade para usar a aplicação. Ela está disponível para qualquer pessoa que deseja melhorar sua organização e gerenciamento de tarefas.",
     },
   ],
   [
     {
-      question: 'How did you get this on the App Store?',
+      question:
+        "Como vocês conseguiram lançar a aplicação nas lojas de aplicativos?",
       answer:
-        'Honestly we were surprised too, but eventually we found out that the app reviewer found the app so compelling they approved it just so they could use it themselves.',
+        "Trabalhamos arduamente para atender aos requisitos das lojas de aplicativos e garantir que nossa aplicação ofereça uma experiência excepcional. A aprovação é uma prova de nossa dedicação e qualidade.",
     },
     {
-      question: 'How do I explain the money I withdraw from Pocket to the IRS?',
+      question:
+        "Como explico o uso da aplicação para minha equipe ou supervisores?",
       answer:
-        'This feels like one-hundred percent a you problem. Pocket is not responsible in any way for your tax returns.',
+        "A aplicação é uma ferramenta de produtividade projetada para melhorar a gestão de tarefas e a eficiência. Se você precisar justificar o uso, destaque como ela ajuda a organizar e priorizar o trabalho.",
     },
     {
-      question: 'How do I become an insider?',
+      question: "Como posso contribuir para melhorar a aplicação?",
       answer:
-        'Contact us with some details about your industry and the type of access you have to apply for an insider account. Once approved, we’ll send you a guide on collecting insider information without being detected at work.',
+        "Entre em contato conosco com suas sugestões e feedback. Valorizamos a contribuição dos nossos usuários para tornar a aplicação ainda melhor e mais eficaz para todos.",
     },
   ],
-]
+];
 
 export function Faqs() {
   return (
@@ -67,15 +70,12 @@ export function Faqs() {
             id="faqs-title"
             className="text-3xl font-medium tracking-tight text-gray-900"
           >
-            Frequently asked questions
+            Perguntas Frequentes
           </h2>
           <p className="mt-2 text-lg text-gray-600">
-            If you have anything else you want to ask,{' '}
-            <a
-              href="mailto:info@example.com"
-              className="text-gray-900 underline"
-            >
-              reach out to us
+            Se você tiver mais alguma dúvida,{" "}
+            <a href="lf.system@outlook.com" className="text-gray-900 underline">
+              entre em contato conosco
             </a>
             .
           </p>
@@ -89,7 +89,7 @@ export function Faqs() {
               <ul role="list" className="space-y-10">
                 {column.map((faq, faqIndex) => (
                   <li key={faqIndex}>
-                    <h3 className="text-lg font-semibold leading-6 text-gray-900">
+                    <h3 className="text-lg font-semibold leading-6 text-electric-violet-600">
                       {faq.question}
                     </h3>
                     <p className="mt-4 text-sm text-gray-700">{faq.answer}</p>
@@ -101,5 +101,5 @@ export function Faqs() {
         </ul>
       </Container>
     </section>
-  )
+  );
 }

@@ -62,14 +62,16 @@ export function Footer() {
           <form className="flex w-full justify-center md:w-auto">
             <Input
               type="email"
-              aria-label="Email address"
-              placeholder="Email address"
+              aria-label="Email"
+              placeholder="Email"
               autoComplete="email"
               required
               className="w-60 min-w-0 shrink"
             />
             <Button type="submit" color="cyan" className="ml-4 flex-none">
-              <span className="hidden lg:inline">Join our newsletter</span>
+              <span className="hidden lg:inline">
+                Inscreva-se na nossa newsletter
+              </span>
               <span className="lg:hidden">Join newsletter</span>
             </Button>
           </form>

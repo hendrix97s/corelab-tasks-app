@@ -40,7 +40,7 @@ export default function Login() {
   const handleAuthenticate = useCallback(
     async (data: signInUserSchemaFormProps) => {
       const response = await login(data);
-      if (response) router.push("/workspace/1");
+      if (response) router.push(`/workspace/${response.workspace.id}`);
     },
     [login, router]
   );

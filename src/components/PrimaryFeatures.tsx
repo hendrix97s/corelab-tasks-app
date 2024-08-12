@@ -37,23 +37,23 @@ interface CustomAnimationProps {
 
 const features = [
   {
-    name: "Invite friends for better returns",
+    name: "Convide Amigos para Melhorar Seus Resultados",
     description:
-      "For every friend you invite to Pocket, you get insider notifications 5 seconds sooner. And it’s 10 seconds if you invite an insider.",
+      "Para cada amigo que você convidar para usar nossa aplicação de gerenciamento de tarefas, você ganhará acesso antecipado a notificações de tarefas importantes. E se você convidar alguém experiente, seu acesso será ainda mais rápido.",
     icon: DeviceUserIcon,
     screen: InviteScreen,
   },
   {
-    name: "Notifications on stock dips",
+    name: "Notificações de Atrasos em Tarefas",
     description:
-      "Get a push notification every time we find out something that’s going to lower the share price on your holdings so you can sell before the information hits the public markets.",
+      "Receba uma notificação sempre que identificarmos um risco de atraso em suas tarefas, permitindo que você tome medidas proativas antes que isso afete seus prazos e metas.",
     icon: DeviceNotificationIcon,
     screen: StocksScreen,
   },
   {
-    name: "Invest what you want",
+    name: "Gerencie como Preferir",
     description:
-      "We hide your stock purchases behind thousands of anonymous trading accounts, so suspicious activity can never be traced back to you.",
+      "Personalize a gestão de suas tarefas de acordo com suas necessidades, mantendo suas atividades organizadas de forma discreta e protegida, sem que ninguém tenha acesso aos detalhes do seu trabalho.",
     icon: DeviceTouchIcon,
     screen: InvestScreen,
   },
@@ -207,7 +207,7 @@ function InviteScreen(props: ScreenProps) {
           <div className="space-y-6">
             {[
               { label: "Full name", value: "Albert H. Wiggin" },
-              { label: "Email address", value: "awiggin@chase.com" },
+              { label: "Email", value: "awiggin@chase.com" },
             ].map((field) => (
               <div key={field.label}>
                 <div className="text-sm text-gray-500">{field.label}</div>
@@ -579,13 +579,15 @@ export function PrimaryFeatures() {
       <Container>
         <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-3xl">
           <h2 className="text-3xl font-medium tracking-tight text-white">
-            Every feature you need to win. Try it for yourself.
+            Todas as Funcionalidades que Você Precisa para Vencer. Experimente
+            Agora.
           </h2>
           <p className="mt-2 text-lg text-gray-400">
-            Pocket was built for investors like you who play by their own rules
-            and aren’t going to let SEC regulations get in the way of their
-            dreams. If other investing tools are afraid to build it, Pocket has
-            it.
+            Nossa aplicação de gerenciamento de tarefas foi criada para pessoas
+            como você, que definem suas próprias regras e não deixam obstáculos
+            atrapalharem seus objetivos. Se outras ferramentas de produtividade
+            não oferecem o que você precisa, nossa aplicação tem exatamente o
+            que você procura.
           </p>
         </div>
       </Container>

@@ -1,47 +1,47 @@
-import { useId } from 'react'
+import { useId } from "react";
 
-import { Container } from '@/components/Container'
+import { Container } from "@/components/Container";
 
 const features = [
   {
-    name: 'Invest any amount',
+    name: "Gerencie Qualquer Quantidade",
     description:
-      'Whether it’s $1 or $1,000,000, we can put your money to work for you.',
+      "Seja $1 ou $1.000.000, podemos ajudar você a otimizar suas tarefas, não importa a escala.",
     icon: DeviceArrowIcon,
   },
   {
-    name: 'Build a balanced portfolio',
+    name: "Construa uma Rotina Balanceada",
     description:
-      'Invest in different industries to find the most opportunities to win huge.',
+      "Organize suas atividades em diferentes áreas para encontrar mais oportunidades de sucesso.",
     icon: DeviceCardsIcon,
   },
   {
-    name: 'Trade in real-time',
+    name: "Gerencie em Tempo Real",
     description:
-      'Get insider tips on big stock moves and act on them within seconds.',
+      "Receba dicas instantâneas sobre mudanças importantes e aja rapidamente para se manter no controle.",
     icon: DeviceClockIcon,
   },
   {
-    name: 'Profit from your network',
+    name: "Aproveite sua Rede",
     description:
-      'Invite new insiders to get tips faster and beat even other Pocket users.',
+      "Convide novos usuários para obter dicas mais rápidas e superar outros usuários da aplicação.",
     icon: DeviceListIcon,
   },
   {
-    name: 'Encrypted and anonymized',
+    name: "Criptografado e Anonimizado",
     description:
-      'Cutting-edge security technology that even the NSA doesn’t know about keeps you hidden.',
+      "Tecnologia de segurança de ponta que protege suas atividades e mantém suas informações privadas.",
     icon: DeviceLockIcon,
   },
   {
-    name: 'Portfolio tracking',
+    name: "Rastreamento de Tarefas",
     description:
-      'Watch your investments grow exponentially, leaving other investors in the dust.',
+      "Acompanhe o progresso de suas atividades e veja como você avança em direção aos seus objetivos.",
     icon: DeviceChartIcon,
   },
-]
+];
 
-function DeviceArrowIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
+function DeviceArrowIcon(props: React.ComponentPropsWithoutRef<"svg">) {
   return (
     <svg viewBox="0 0 32 32" aria-hidden="true" {...props}>
       <path
@@ -58,11 +58,11 @@ function DeviceArrowIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
       />
       <circle cx={16} cy={16} r={16} fill="#A3A3A3" fillOpacity={0.2} />
     </svg>
-  )
+  );
 }
 
-function DeviceCardsIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
-  let id = useId()
+function DeviceCardsIcon(props: React.ComponentPropsWithoutRef<"svg">) {
+  let id = useId();
 
   return (
     <svg viewBox="0 0 32 32" aria-hidden="true" {...props}>
@@ -94,10 +94,10 @@ function DeviceCardsIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
         </linearGradient>
       </defs>
     </svg>
-  )
+  );
 }
 
-function DeviceClockIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
+function DeviceClockIcon(props: React.ComponentPropsWithoutRef<"svg">) {
   return (
     <svg viewBox="0 0 32 32" aria-hidden="true" {...props}>
       <circle cx={16} cy={16} r={16} fill="#A3A3A3" fillOpacity={0.2} />
@@ -114,10 +114,10 @@ function DeviceClockIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
         fill="#171717"
       />
     </svg>
-  )
+  );
 }
 
-function DeviceListIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
+function DeviceListIcon(props: React.ComponentPropsWithoutRef<"svg">) {
   return (
     <svg viewBox="0 0 32 32" fill="none" aria-hidden="true" {...props}>
       <path
@@ -137,10 +137,10 @@ function DeviceListIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
       />
       <circle cx={16} cy={16} r={16} fill="#A3A3A3" fillOpacity={0.2} />
     </svg>
-  )
+  );
 }
 
-function DeviceLockIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
+function DeviceLockIcon(props: React.ComponentPropsWithoutRef<"svg">) {
   return (
     <svg viewBox="0 0 32 32" aria-hidden="true" {...props}>
       <circle cx={16} cy={16} r={16} fill="#A3A3A3" fillOpacity={0.2} />
@@ -157,10 +157,10 @@ function DeviceLockIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
         fill="#171717"
       />
     </svg>
-  )
+  );
 }
 
-function DeviceChartIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
+function DeviceChartIcon(props: React.ComponentPropsWithoutRef<"svg">) {
   return (
     <svg viewBox="0 0 32 32" fill="none" aria-hidden="true" {...props}>
       <path
@@ -183,7 +183,7 @@ function DeviceChartIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
       />
       <circle cx={16} cy={16} r={16} fill="#A3A3A3" fillOpacity={0.2} />
     </svg>
-  )
+  );
 }
 
 export function SecondaryFeatures() {
@@ -196,11 +196,13 @@ export function SecondaryFeatures() {
       <Container>
         <div className="mx-auto max-w-2xl sm:text-center">
           <h2 className="text-3xl font-medium tracking-tight text-gray-900">
-            Now is the time to build your portfolio.
+            Agora é o Momento de Organizar Suas Tarefas.
           </h2>
           <p className="mt-2 text-lg text-gray-600">
-            With typical market returns, you have to start young to secure your
-            future. With Pocket, it’s never too late to build your nest egg.
+            Em um mundo onde o tempo é precioso, começar cedo é fundamental para
+            garantir o sucesso. Com nossa aplicação de gerenciamento de tarefas,
+            nunca é tarde para estruturar suas atividades e alcançar seus
+            objetivos.
           </p>
         </div>
         <ul
@@ -213,7 +215,7 @@ export function SecondaryFeatures() {
               className="rounded-2xl border border-gray-200 p-8"
             >
               <feature.icon className="h-8 w-8" />
-              <h3 className="mt-6 font-semibold text-gray-900">
+              <h3 className="mt-6 font-semibold text-electric-violet-600">
                 {feature.name}
               </h3>
               <p className="mt-2 text-gray-700">{feature.description}</p>
@@ -222,5 +224,5 @@ export function SecondaryFeatures() {
         </ul>
       </Container>
     </section>
-  )
+  );
 }

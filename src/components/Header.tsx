@@ -1,20 +1,20 @@
-'use client'
+"use client";
 
-import Link from 'next/link'
+import Link from "next/link";
 import {
   Popover,
   PopoverButton,
   PopoverBackdrop,
   PopoverPanel,
-} from '@headlessui/react'
-import { AnimatePresence, motion } from 'framer-motion'
+} from "@headlessui/react";
+import { AnimatePresence, motion } from "framer-motion";
 
-import { Button } from '@/components/Button'
-import { Container } from '@/components/Container'
-import { Logo } from '@/components/Logo'
-import { NavLinks } from '@/components/NavLinks'
+import { Button } from "@/components/Button";
+import { Container } from "@/components/Container";
+import { Logo } from "@/components/Logo";
+import { NavLinks } from "@/components/NavLinks";
 
-function MenuIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
+function MenuIcon(props: React.ComponentPropsWithoutRef<"svg">) {
   return (
     <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>
       <path
@@ -24,10 +24,10 @@ function MenuIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
         strokeLinejoin="round"
       />
     </svg>
-  )
+  );
 }
 
-function ChevronUpIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
+function ChevronUpIcon(props: React.ComponentPropsWithoutRef<"svg">) {
   return (
     <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>
       <path
@@ -37,14 +37,14 @@ function ChevronUpIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
         strokeLinejoin="round"
       />
     </svg>
-  )
+  );
 }
 
 function MobileNavLink(
   props: Omit<
     React.ComponentPropsWithoutRef<typeof PopoverButton<typeof Link>>,
-    'as' | 'className'
-  >,
+    "as" | "className"
+  >
 ) {
   return (
     <PopoverButton
@@ -52,7 +52,7 @@ function MobileNavLink(
       className="block text-base leading-7 tracking-tight text-gray-700"
       {...props}
     />
-  )
+  );
 }
 
 export function Header() {
@@ -109,21 +109,18 @@ export function Header() {
                         >
                           <div className="space-y-4">
                             <MobileNavLink href="/#features">
-                              Features
+                              Funcionalidades
                             </MobileNavLink>
                             <MobileNavLink href="/#reviews">
-                              Reviews
+                              Avaliações
                             </MobileNavLink>
-                            <MobileNavLink href="/#pricing">
-                              Pricing
-                            </MobileNavLink>
+
                             <MobileNavLink href="/#faqs">FAQs</MobileNavLink>
                           </div>
                           <div className="mt-8 flex flex-col gap-4">
                             <Button href="/login" variant="outline">
-                              Log in
+                              Login
                             </Button>
-                            <Button href="#">Download the app</Button>
                           </div>
                         </PopoverPanel>
                       </>
@@ -142,5 +139,5 @@ export function Header() {
         </Container>
       </nav>
     </header>
-  )
+  );
 }
