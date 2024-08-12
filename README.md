@@ -1,36 +1,56 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Test Corelab
 
-## Getting Started
+Este projeto utiliza Next.js e é configurado para ser executado com Node.js v18.17.0. Siga as instruções abaixo para configurar e iniciar o projeto.
 
-First, run the development server:
+## Visão Geral da Aplicação
+
+Veja uma apresentação da aplicação mostrando suas funcionalidades no vídeo abaixo:
+
+[Assista à Demonstração](https://www.loom.com/share/f237711ab50f4687b0670d02ede64205?sid=7e9dc414-9968-4e3d-89f3-60fdaac32793)
+
+### Pré-requisitos
+
+- Node.js: v18.17.0
+- Yarn: Certifique-se de que o Yarn esteja instalado em sua máquina. Caso não tenha, você pode instalá-lo com o comando npm install -g yarn.
+
+### Configuração do Projeto
+
+Clone o Repositório
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone git@github.com:hendrix97s/corelab-tasks-app.git
+cd corelab-tasks-app
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Configure as Variáveis de Ambiente
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Copie o arquivo .env.example para um novo arquivo .env. Este arquivo deve conter todas as variáveis de ambiente necessárias para a execução do projeto.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+```bash
+cp .env.example .env
+```
 
-## Learn More
+### Instale as Dependências
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+yarn install
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Construa o Projeto
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+```bash
+yarn build
+```
 
-## Deploy on Vercel
+### Inicie o Servidor
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+yarn start
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+O projeto estará disponível em http://localhost:3000
+
+## Notas Adicionais
+
+- Certifique-se de que todas as variáveis de ambiente estejam corretamente configuradas no arquivo .env para evitar problemas durante a execução.
+- Para desenvolvimento, você pode usar yarn dev em vez de yarn build e yarn start.
